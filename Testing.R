@@ -16,23 +16,26 @@ if(!dir.exists(output_dir)) {
 }
 
 dates_df <- 
-  tibble::tibble(Date = seq.Date(as.Date("2026-07-26"), as.Date("2026-09-06"), 
+  tibble::tibble(Date = seq.Date(as.Date("2026-07-26"), Sys.Date(), 
                                  by = "day")) |>
   dplyr::mutate(Quarter = lubridate::quarter(Date),
                 Month = lubridate::month(Date),
                 Week = lubridate::week(Date),
                 Day = lubridate::wday(Date, label = TRUE, abbr = FALSE, week_start = 1))
 
-createYear(dates_df$Date, file.path(template_dir, "Year.md"))
+test_date <- dates_df |> dplyr::pull(Date) |> dplyr::first()
 
-createQuarter(dates_df |> dplyr::filter(Month %in% 7:9) |> dplyr::pull(Date),
+createYear(test_date, 
+           file.path(template_dir, "Year.md"))
+
+createQuarter(test_date,
               file.path(template_dir, "Quarter.md"))
 
-createMonth(dates_df |> dplyr::filter(Month %in% 7:9) |> dplyr::pull(Date),
+createMonth(test_date,
             file.path(template_dir, "Month.md"))
 
-createWeek(dates_df |> dplyr::filter(Month == 8) |> dplyr::pull(Date),
+createWeek(test_date,
            file.path(template_dir, "Week.md"))
 
-createDay(dates_df |> dplyr::filter(Week == 35) |> dplyr::pull(Date),
+createDay(test_date,
           file.path(template_dir, "Day.md"))
