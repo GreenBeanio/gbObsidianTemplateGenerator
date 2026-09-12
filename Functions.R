@@ -30,9 +30,23 @@ createYear <- \(input_date, template, unique_timestamp = Sys.time()) {
     stringr::str_replace_all("\\{creation_date\\}", c_creation_date) |>
     stringr::str_replace_all("\\{unique_timestamp\\}", c_unique_timestamp)
   # Run the quarterly results to get the needed links
-  ###########
-  ###########
-  ###########
+  quarter_dates <- c(
+    lubridate::make_date(c_year, 1, 1),
+    lubridate::make_date(c_year, 4, 1),
+    lubridate::make_date(c_year, 7, 1),
+    lubridate::make_date(c_year, 10, 1))
+  quarters <- purrr::map(quarter_dates, 
+                         \(x) createQuarter(x, 
+                                            file.path(template_dir, 
+                                                      "Quarter.md"),
+                                            unique_timestamp)) |> 
+    purrr::flatten() |>
+    purrr::map(\(x) x |> basename() |> htmltools::urlEncodePath())
+  new_template <- new_template |>
+    stringr::str_replace_all("\\{Quarter 1\\}", glue::glue("[Quarter 1]({quarters[['Quarter 1']]})")) |>
+    stringr::str_replace_all("\\{Quarter 2\\}", glue::glue("[Quarter 2]({quarters[['Quarter 2']]})")) |>
+    stringr::str_replace_all("\\{Quarter 3\\}", glue::glue("[Quarter 3]({quarters[['Quarter 3']]})")) |>
+    stringr::str_replace_all("\\{Quarter 4\\}", glue::glue("[Quarter 4]({quarters[['Quarter 4']]})"))
   # Write the file and add to output
   readr::write_file(new_template, c_output)
   output_list[[output_name]] <- c_output
