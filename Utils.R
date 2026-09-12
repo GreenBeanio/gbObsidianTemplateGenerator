@@ -18,3 +18,14 @@ replaceHeaderLinks <- \(header_values, possible_header_values, template) {
   }
   return(template)
 }
+
+#####
+#####
+#####
+makeObsidianFilePath <- \(list_of_paths) {
+  return(
+    list_of_paths |>
+      purrr::map(\(x) x |> 
+                   basename() |> 
+                   htmltools::urlEncodePath())) 
+}

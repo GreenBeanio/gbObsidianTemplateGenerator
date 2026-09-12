@@ -1,7 +1,7 @@
 #####
 #####
 #####
-createYear <- \(input_date, template, unique_timestamp = Sys.time()) {
+createYear <- \(input_date, template, unique_timestamp = Sys.time(), header_func = makeObsidianFilePath) {
   if(length(input_date) != 1) {
     stop("input_date needs a single date")
   }
@@ -41,7 +41,7 @@ createYear <- \(input_date, template, unique_timestamp = Sys.time()) {
                                                       "Quarter.md"),
                                             unique_timestamp)) |> 
     purrr::flatten() |>
-    purrr::map(\(x) x |> basename() |> htmltools::urlEncodePath())
+    header_func()
   new_template <- replaceHeaderLinks(
     quarters,
     paste0("Quarter ", 1:4),
