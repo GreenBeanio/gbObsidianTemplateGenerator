@@ -1,30 +1,7 @@
-input_dir <- here::here()
-output_dir <- file.path(input_dir, "Output")
-template_dir <- file.path(input_dir, "Templates")
-
-
-if(!dir.exists(output_dir)) {
-  dir.create(output_dir)
-  dir.create(file.path(output_dir, "Year"))
-  dir.create(file.path(output_dir, "Quarter"))
-  dir.create(file.path(output_dir, "Quarter"))
-  dir.create(file.path(output_dir, "Month"))
-  dir.create(file.path(output_dir, "Week"))
-  dir.create(file.path(output_dir, "Day"))
-}
-
-dates_df <- 
-  tibble::tibble(Date = seq.Date(as.Date("2026-07-26"), as.Date("2026-09-06"), 
-                                 by = "day")) |>
-  dplyr::mutate(Quarter = lubridate::quarter(Date),
-                Month = lubridate::month(Date),
-                Week = lubridate::week(Date),
-                Day = lubridate::wday(Date, label = TRUE, abbr = FALSE, week_start = 1))
-
 #####
 #####
 #####
-createYear <- \(input_dates, template, unique_timestamp = Sys.time(), create_children = TRUE) {
+createYear <- \(input_dates, template, unique_timestamp = Sys.time()) {
   loaded_template <- readr::read_file(template) #readLines(template)
   unique_years <- unique(lubridate::year(input_dates))
   output_list <- list()
@@ -39,7 +16,7 @@ createYear <- \(input_dates, template, unique_timestamp = Sys.time(), create_chi
       output_dir, 
       glue::glue("{c_title} Yearly Note u-{c_unique_timestamp}.md"))
     if(file.exists(c_output)) {
-      # add to output
+      # Skip if it exists to not accidentally overwrite previous modifications
       output_list[[output_name]] <- c_output
       next
     }
@@ -58,12 +35,10 @@ createYear <- \(input_dates, template, unique_timestamp = Sys.time(), create_chi
   return(output_list)
 }
 
-createYear(dates_df$Date, file.path(template_dir, "Year.md"))
-
 #####
 #####
 #####
-createQuarter <- \(input_dates, template, unique_timestamp = Sys.time(), create_children = TRUE) {
+createQuarter <- \(input_dates, template, unique_timestamp = Sys.time()) {
   loaded_template <- readr::read_file(template)
   unique_quarters <- unique(lubridate::quarter(input_dates))
   c_year <- lubridate::year(input_dates[[1]])
@@ -79,7 +54,7 @@ createQuarter <- \(input_dates, template, unique_timestamp = Sys.time(), create_
       output_dir, 
       glue::glue("{c_title} Quarterly Note u-{c_unique_timestamp}.md"))
     if(file.exists(c_output)) {
-      # add to output
+      # Skip if it exists to not accidentally overwrite previous modifications
       output_list[[output_name]] <- c_output
       next
     }
@@ -98,13 +73,10 @@ createQuarter <- \(input_dates, template, unique_timestamp = Sys.time(), create_
   return(output_list)
 }
 
-createQuarter(dates_df |> dplyr::filter(Month %in% 7:9) |> dplyr::pull(Date),
-            file.path(template_dir, "Quarter.md"))
-
 #####
 #####
 #####
-createMonth <- \(input_dates, template, unique_timestamp = Sys.time(), create_children = TRUE) {
+createMonth <- \(input_dates, template, unique_timestamp = Sys.time()) {
   loaded_template <- readr::read_file(template)
   unique_months <- unique(lubridate::month(input_dates))
   c_year <- lubridate::year(input_dates[[1]])
@@ -121,7 +93,7 @@ createMonth <- \(input_dates, template, unique_timestamp = Sys.time(), create_ch
       output_dir, 
       glue::glue("{c_title} Monthly Note u-{c_unique_timestamp}.md"))
     if(file.exists(c_output)) {
-      # add to output
+      # Skip if it exists to not accidentally overwrite previous modifications
       output_list[[output_name]] <- c_output
       next
     }
@@ -140,13 +112,10 @@ createMonth <- \(input_dates, template, unique_timestamp = Sys.time(), create_ch
   return(output_list)
 }
 
-createMonth(dates_df |> dplyr::filter(Month %in% 7:9) |> dplyr::pull(Date),
-           file.path(template_dir, "Month.md"))
-
 #####
 #####
 #####
-createWeek <- \(input_dates, template, unique_timestamp = Sys.time(), create_children = TRUE) {
+createWeek <- \(input_dates, template, unique_timestamp = Sys.time()) {
   loaded_template <- readr::read_file(template)
   unique_weeks <- unique(lubridate::week(input_dates))
   c_year <- lubridate::year(input_dates[[1]])
@@ -167,7 +136,7 @@ createWeek <- \(input_dates, template, unique_timestamp = Sys.time(), create_chi
       output_dir, 
       glue::glue("{c_title} Weekly Note u-{c_unique_timestamp}.md"))
     if(file.exists(c_output)) {
-      # add to output
+      # Skip if it exists to not accidentally overwrite previous modifications
       output_list[[output_name]] <- c_output
       next
     }
@@ -186,13 +155,10 @@ createWeek <- \(input_dates, template, unique_timestamp = Sys.time(), create_chi
   return(output_list)
 }
 
-createWeek(dates_df |> dplyr::filter(Month == 8) |> dplyr::pull(Date),
-          file.path(template_dir, "Week.md"))
-
 #####
 #####
 #####
-createDay <- \(input_dates, template, unique_timestamp = Sys.time(), create_children = TRUE) {
+createDay <- \(input_dates, template, unique_timestamp = Sys.time()) {
   loaded_template <- readr::read_file(template)
   unique_days <- unique(lubridate::date(input_dates))
   output_list <- list()
@@ -210,6 +176,7 @@ createDay <- \(input_dates, template, unique_timestamp = Sys.time(), create_chil
       output_dir, 
       glue::glue("{c_title} Daily Note u-{c_unique_timestamp}.md"))
     if(file.exists(c_output)) {
+      # Skip if it exists to not accidentally overwrite previous modifications
       output_list[[output_name]] <- c_output
       next
     }
@@ -225,6 +192,3 @@ createDay <- \(input_dates, template, unique_timestamp = Sys.time(), create_chil
   }
   return(output_list)
 }
-
-createDay(dates_df |> dplyr::filter(Week == 35) |> dplyr::pull(Date),
-          file.path(template_dir, "Day.md"))
