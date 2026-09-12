@@ -42,11 +42,10 @@ createYear <- \(input_date, template, unique_timestamp = Sys.time()) {
                                             unique_timestamp)) |> 
     purrr::flatten() |>
     purrr::map(\(x) x |> basename() |> htmltools::urlEncodePath())
-  new_template <- new_template |>
-    stringr::str_replace_all("\\{Quarter 1\\}", glue::glue("[Quarter 1]({quarters[['Quarter 1']]})")) |>
-    stringr::str_replace_all("\\{Quarter 2\\}", glue::glue("[Quarter 2]({quarters[['Quarter 2']]})")) |>
-    stringr::str_replace_all("\\{Quarter 3\\}", glue::glue("[Quarter 3]({quarters[['Quarter 3']]})")) |>
-    stringr::str_replace_all("\\{Quarter 4\\}", glue::glue("[Quarter 4]({quarters[['Quarter 4']]})"))
+  new_template <- replaceHeaderLinks(
+    quarters,
+    paste0("Quarter ", 1:4),
+    new_template)
   # Write the file and add to output
   readr::write_file(new_template, c_output)
   output_list[[output_name]] <- c_output
