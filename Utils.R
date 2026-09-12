@@ -29,3 +29,16 @@ makeObsidianFilePath <- \(list_of_paths) {
                    basename() |> 
                    htmltools::urlEncodePath())) 
 }
+
+#####
+#####
+#####
+obsidianMetadataReplace <- \(template,
+                             title,
+                             creation_date,
+                             unique_timestamp) {
+  return(template |>
+           stringr::str_replace_all("\\{title\\}", title) |>
+           stringr::str_replace_all("\\{creation_date\\}", creation_date) |>
+           stringr::str_replace_all("\\{unique_timestamp\\}", unique_timestamp))
+}
