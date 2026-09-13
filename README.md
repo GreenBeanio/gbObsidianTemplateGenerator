@@ -16,12 +16,13 @@ Such as: `{title}`
 
 All of the templates have these 3 fields inside of the Obsidian YAML headers:
 
-- `{title}`: This is added to the title of the document
-- `{creation_date}`: This is the date the file is generated on
+- `{title}`: This is added to the title of the document.
+- `{creation_date}`: This is the date the file is generated on.
 - `{unique_timestamp}`: This is the unique time stamp that I use to guarantee files are unique even if they have the same title.
   - This is important because I use the Obsidian file names for linking instead of cumbersome relative or absolute paths.
   - In my documents the file name is constructed with `{title} u-{unique_timestamp}`.
     - Do note that the templates do have extra information added to the title.
+- `{author}`: This is the name of who is using the template.
 
 ### Year
 

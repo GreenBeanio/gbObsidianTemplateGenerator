@@ -1,6 +1,6 @@
 ---
 title:  {title} Weekly Note
-author: Garrett Johnson
+author: {author}
 initial-date:  {creation_date}
 latest-revision:  {creation_date}
 unique-suffix:  u-{unique_timestamp}
@@ -9,7 +9,6 @@ tags:
   - Cluster/Notes/Weekly
   - Life-Cycle/On-Going
   - Vault/Main
-  - Connections/None
 ---
 #  {title} Weekly Note
 

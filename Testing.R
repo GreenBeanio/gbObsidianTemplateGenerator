@@ -1,5 +1,6 @@
-source(file.path(here::here(), "Functions.R"))
-source(file.path(here::here(), "Utils.R"))
+for(sf in dir(file.path(here::here(), "R"), ".R", full.names = T)) {
+  source(sf)
+}
 
 input_dir <- here::here()
 output_dir <- file.path(input_dir, "Output")
@@ -11,7 +12,8 @@ test_date <- Sys.Date()
 
 createYear(input_date = test_date,
            template_dir = template_dir,
-           output_dir = output_dir)
+           output_dir = output_dir,
+           author = "Garrett Johnson")
 # 
 # createQuarter(input_date = test_date,
 #            template_dir = template_dir,

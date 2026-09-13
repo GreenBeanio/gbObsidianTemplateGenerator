@@ -4,6 +4,7 @@
 createQuarter <- \(input_date, 
                    template_dir,
                    output_dir,
+                   author = Sys.info[["user"]],
                    template_pre = "",
                    unique_timestamp = Sys.time(), 
                    header_func = makeObsidianFilePath) {
@@ -39,7 +40,7 @@ createQuarter <- \(input_date,
   }
   # Load template and replace the constant variables
   loaded_template <- loaded_template |> 
-    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp)
+    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp, author)
   # Run the months
   start_month <- lubridate::month(lubridate::floor_date(input_date, unit = "quarter"))
   month_dates <- c(
@@ -50,6 +51,7 @@ createQuarter <- \(input_date,
                          \(x) createMonth(input_date =  x,
                                           template_dir = template_dir,
                                           output_dir = output_dir,
+                                          author = author,
                                           template_pre = template_pre,
                                           unique_timestamp = unique_timestamp,
                                           header_func = header_func)) |> 

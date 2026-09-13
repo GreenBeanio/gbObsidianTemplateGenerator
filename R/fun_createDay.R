@@ -4,6 +4,7 @@
 createDay <- \(input_date, 
                template_dir,
                output_dir,
+               author = Sys.info[["user"]],
                template_pre = "",
                unique_timestamp = Sys.time(), 
                header_func = makeObsidianFilePath) {
@@ -41,7 +42,7 @@ createDay <- \(input_date,
   }
   # Load template and replace the constant variables
   loaded_template <- loaded_template |> 
-    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp)
+    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp, author)
   # Write the file and add to output
   readr::write_file(loaded_template, output_file)
   output_list[[output_name]] <- output_file

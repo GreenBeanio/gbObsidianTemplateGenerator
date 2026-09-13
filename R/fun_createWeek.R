@@ -4,6 +4,7 @@
 createWeek <- \(input_date, 
                 template_dir,
                 output_dir,
+                author = Sys.info[["user"]],
                 template_pre = "",
                 unique_timestamp = Sys.time(), 
                 header_func = makeObsidianFilePath) {
@@ -41,7 +42,7 @@ createWeek <- \(input_date,
   }
   # Load template and replace the constant variables
   loaded_template <- loaded_template |> 
-    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp)
+    obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp, author)
   # Prevent the week starting in the previous year
   w_day <- lubridate::wday(input_date, week_start = 1)
   if(w_day != 1) {
@@ -73,6 +74,7 @@ createWeek <- \(input_date,
                        \(x) createDay(input_date = x,
                                       template_dir = template_dir,
                                       output_dir = output_dir,
+                                      author = author,
                                       template_pre = template_pre,
                                       unique_timestamp = unique_timestamp,
                                       header_func = header_func)) |> 
