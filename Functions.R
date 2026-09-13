@@ -3,6 +3,7 @@
 #####
 createYear <- \(input_date, 
                 template_dir,
+                output_dir,
                 template_pre = "",
                 unique_timestamp = Sys.time(), 
                 header_func = makeObsidianFilePath) {
@@ -22,8 +23,13 @@ createYear <- \(input_date,
   c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
   # Get the output path and check if it exists
   output_name <- c_title
+  cur_output_dir <- file.path(output_dir, "4_Yearly Notes")
+  if(!dir.exists(cur_output_dir)) {
+    # Recursion could be somewhat annoying if you put in the wrong input directory
+    dir.create(cur_output_dir, recursive = TRUE)
+  }
   c_output <- file.path(
-    output_dir, 
+    cur_output_dir, 
     glue::glue("{c_title} Yearly Note u-{c_unique_timestamp}.md"))
   if(file.exists(c_output)) {
     # Skip if it exists to not accidentally overwrite previous modifications
@@ -42,6 +48,7 @@ createYear <- \(input_date,
   quarters <- purrr::map(quarter_dates, 
                          \(x) createQuarter(input_date =  x,
                                             template_dir = template_dir,
+                                            output_dir = output_dir,
                                             template_pre = template_pre,
                                             unique_timestamp = unique_timestamp,
                                             header_func = header_func)) |> 
@@ -62,6 +69,7 @@ createYear <- \(input_date,
 #####
 createQuarter <- \(input_date, 
                    template_dir,
+                   output_dir,
                    template_pre = "",
                    unique_timestamp = Sys.time(), 
                    header_func = makeObsidianFilePath) {
@@ -82,8 +90,13 @@ createQuarter <- \(input_date,
   c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
   # Get the output path and check if it exists
   output_name <- glue::glue("Quarter {c_quarter}")
+  cur_output_dir <- file.path(output_dir, "3_Quarterly Notes", lubridate::year(input_date))
+  if(!dir.exists(cur_output_dir)) {
+    # Recursion could be somewhat annoying if you put in the wrong input directory
+    dir.create(cur_output_dir, recursive = TRUE)
+  }
   c_output <- file.path(
-    output_dir, 
+    cur_output_dir, 
     glue::glue("{c_title} Quarterly Note u-{c_unique_timestamp}.md"))
   if(file.exists(c_output)) {
     # Skip if it exists to not accidentally overwrite previous modifications
@@ -102,6 +115,7 @@ createQuarter <- \(input_date,
   c_months <- purrr::map(month_dates, 
                          \(x) createMonth(input_date =  x,
                                           template_dir = template_dir,
+                                          output_dir = output_dir,
                                           template_pre = template_pre,
                                           unique_timestamp = unique_timestamp,
                                           header_func = header_func)) |> 
@@ -122,6 +136,7 @@ createQuarter <- \(input_date,
 #####
 createMonth <- \(input_date, 
                  template_dir,
+                 output_dir,
                  template_pre = "",
                  unique_timestamp = Sys.time(), 
                  header_func = makeObsidianFilePath) {
@@ -138,13 +153,18 @@ createMonth <- \(input_date,
   quarter_month <- lubridate::month(lubridate::floor_date(input_date, unit = "quarter"))
   output_list <- list()
   # Get the constant variables
-  c_title <- glue::glue("{c_year}_{c_month}")
+  c_title <- glue::glue("{c_year}_{c_month |> stringr::str_pad(2, 'left', '0')}}")
   c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d")
   c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
   # Get the output path and check if it exists
   output_name <- glue::glue("Month {c_month - quarter_month + 1}")
+  cur_output_dir <- file.path(output_dir, "2_Monthly Notes", lubridate::year(input_date))
+  if(!dir.exists(cur_output_dir)) {
+    # Recursion could be somewhat annoying if you put in the wrong input directory
+    dir.create(cur_output_dir, recursive = TRUE)
+  }
   c_output <- file.path(
-    output_dir, 
+    cur_output_dir, 
     glue::glue("{c_title} Monthly Note u-{c_unique_timestamp}.md"))
   if(file.exists(c_output)) {
     # Skip if it exists to not accidentally overwrite previous modifications
@@ -168,14 +188,15 @@ createMonth <- \(input_date,
   c_weeks <- purrr::map(week_dates, 
                         \(x) createWeek(input_date =  x,
                                         template_dir = template_dir,
+                                        output_dir = output_dir,
                                         template_pre = template_pre,
                                         unique_timestamp = unique_timestamp,
                                         header_func = header_func)) |> 
     purrr::flatten() |>
     header_func()
   loaded_template <- replaceHeaderLinks(
-    quarters,
-    paste0("Week ", 1:length(c_weeks)),
+    c_weeks,
+    paste0("Week ", 1:6),#1:length(c_weeks)),
     loaded_template)
   # Write the file and add to output
   readr::write_file(loaded_template, c_output)
@@ -188,6 +209,7 @@ createMonth <- \(input_date,
 #####
 createWeek <- \(input_date, 
                 template_dir,
+                output_dir,
                 template_pre = "",
                 unique_timestamp = Sys.time(), 
                 header_func = makeObsidianFilePath) {
@@ -211,13 +233,18 @@ createWeek <- \(input_date,
   month_week <- lubridate::isoweek(lubridate::floor_date(input_date, unit = "month"))
   output_list <- list()
   # Get the constant variables
-  c_title <- glue::glue("{c_year}_{c_week}")
+  c_title <- glue::glue("{c_year}_{c_week |> stringr::str_pad(2, 'left', '0')}")
   c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d")
   c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
   # Get the output path and check if it exists
   output_name <- glue::glue("Week {c_week - month_week + 1}")
+  cur_output_dir <- file.path(output_dir, "1_Weekly Notes", lubridate::year(input_date))
+  if(!dir.exists(cur_output_dir)) {
+    # Recursion could be somewhat annoying if you put in the wrong input directory
+    dir.create(cur_output_dir, recursive = TRUE)
+  }
   c_output <- file.path(
-    output_dir, 
+    cur_output_dir, 
     glue::glue("{c_title} Weekly Note u-{c_unique_timestamp}.md"))
   if(file.exists(c_output)) {
     # Skip if it exists to not accidentally overwrite previous modifications
@@ -227,23 +254,36 @@ createWeek <- \(input_date,
   # Load template and replace the constant variables
   loaded_template <- loaded_template |> 
     obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp)
-  # Run the quarterly results to get the needed links
-  quarter_dates <- c(
-    lubridate::make_date(c_year, 1, 1),
-    lubridate::make_date(c_year, 4, 1),
-    lubridate::make_date(c_year, 7, 1),
-    lubridate::make_date(c_year, 10, 1))
-  quarters <- purrr::map(quarter_dates, 
-                         \(x) createQuarter(input_date =  x,
-                                            template_dir = template_dir,
-                                            template_pre = template_pre,
-                                            unique_timestamp = unique_timestamp,
-                                            header_func = header_func)) |> 
+  # Move start date to the first monday of the week
+  w_day <- lubridate::wday(input_date, week_start = 1)
+  w_offset <- w_day - 1
+  m_day <- as.numeric(lubridate::mday(input_date))
+  cur_offset <- min(w_offset, m_day - 1)
+  if(cur_offset > 0) {
+    input_date <- input_date - lubridate::days(cur_offset)
+  }
+  # Make sure the week doesn't go into the next month
+  m_day <- as.numeric(lubridate::mday(input_date))
+  end_mday <- lubridate::mday(input_date + lubridate::weeks(1))
+  end_offset <- 6
+  if(end_mday < m_day) {
+    end_offset <- 7 - end_mday
+  }
+  end_date <- input_date + lubridate::days(end_offset)
+  date_seq <- seq.Date(input_date, end_date, by = "day")
+  # Get days
+  w_days <- purrr::map(date_seq, 
+                       \(x) createDay(input_date = x,
+                                      template_dir = template_dir,
+                                      output_dir = output_dir,
+                                      template_pre = template_pre,
+                                      unique_timestamp = unique_timestamp,
+                                      header_func = header_func)) |> 
     purrr::flatten() |>
     header_func()
   loaded_template <- replaceHeaderLinks(
-    quarters,
-    paste0("Quarter ", 1:4),
+    w_days,
+    weekdays(seq.Date(as.Date("2026-09-07"), by = "day", length.out = 7)),
     loaded_template)
   # Write the file and add to output
   readr::write_file(loaded_template, c_output)
@@ -256,6 +296,7 @@ createWeek <- \(input_date,
 #####
 createDay <- \(input_date, 
                template_dir,
+               output_dir,
                template_pre = "",
                unique_timestamp = Sys.time(), 
                header_func = makeObsidianFilePath) {
@@ -276,8 +317,15 @@ createDay <- \(input_date,
   # Get the output path and check if it exists
   output_name <- as.character(lubridate::wday(input_date, label = TRUE, 
                                               abbr = FALSE, week_start = 1))
+  cur_output_dir <- file.path(
+    output_dir, "0_Daily Notes", lubridate::year(input_date),
+    lubridate::month(input_date) |> stringr::str_pad(2, 'left', '0'))
+  if(!dir.exists(cur_output_dir)) {
+    # Recursion could be somewhat annoying if you put in the wrong input directory
+    dir.create(cur_output_dir, recursive = TRUE)
+  }
   output_file <- file.path(
-    output_dir, 
+    cur_output_dir, 
     glue::glue("{c_title} Daily Note u-{c_unique_timestamp}.md"))
   if(file.exists(output_file)) {
     # Skip if it exists to not accidentally overwrite previous modifications

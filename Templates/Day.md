@@ -7,7 +7,7 @@ unique-suffix:  u-{unique_timestamp}
 tags:
   - Index/Notes/Daily
   - Cluster/Notes/Daily
-  - Life-Cycle/Complete
+  - Life-Cycle/On-Going
   - Vault/Main
   - Connections/None
 ---
@@ -15,16 +15,6 @@ tags:
 
 ## Carry Over
 
-- [ ] Catch up on the daily log
-- [ ] Catch up on the purchase log
-- [ ] Plan out the projects I want to work on and pursue
-- [ ] Think about revamping my notes structure to not have so many empty directories and tags
-
 ## Journal
 
 ## Tomorrow
-
-- [ ] Catch up on the daily log
-- [ ] Catch up on the purchase log
-- [ ] Plan out the projects I want to work on and pursue
-- [ ] Think about revamping my notes structure to not have so many empty directories and tags

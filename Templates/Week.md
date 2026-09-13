@@ -15,13 +15,6 @@ tags:
 
 ## Carry Over
 
-- [ ] Daily Log Maintenance
-- [ ] Nutrition Log Catchup - Hoping to get 5-days per day & the current day
-- [ ] Purchases Log Catchup
-- [ ] Accounting Log Catchup
-- [ ] Entertainment Log Catchup
-- [ ] Plan out a revamp for the Tracking Ecosystem
-
 ## Daily Tasks
 
 ### {Monday}
@@ -41,10 +34,3 @@ tags:
 ## Journal
 
 ## Next Week
-
-- [ ] Daily Log Maintenance
-- [ ] Nutrition Log Catchup - Hoping to get 5-days per day & the current day
-- [ ] Purchases Log Catchup
-- [ ] Accounting Log Catchup
-- [ ] Entertainment Log Catchup
-- [ ] Plan out a revamp for the Tracking Ecosystem

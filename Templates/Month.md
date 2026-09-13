@@ -14,12 +14,6 @@ tags:
 
 ## Carry Over
 
-- [ ] Work on the Daily Log Tracking System
-- [ ] Catch up on the Daily Log through python automation
-- [ ] Possibly start the Nutrition Log Tracking System Automation
-- [ ] Possibly pull Udemy purchases to complete my purchases log
-- [ ] Possibly start Accounting Log and Purchase Log Automation
-
 ## Weekly Tasks
 
 ### {Week 1}
@@ -36,12 +30,4 @@ tags:
 
 ## Journal
 
-xxx
-
 ## Next Month
-
-- [ ] Work on the Daily Log Tracking System
-- [ ] Catch up on the Daily Log through python automation
-- [ ] Possibly start the Nutrition Log Tracking System Automation
-- [ ] Possibly pull Udemy purchases to complete my purchases log
-- [ ] Possibly start Accounting Log and Purchase Log Automation

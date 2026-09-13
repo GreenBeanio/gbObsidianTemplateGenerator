@@ -14,8 +14,6 @@ tags:
 
 ## Yearly Tasks
 
-- [ ]
-
 ## Quarterly Trasks
 
 ### {Quarter 1}
@@ -26,15 +24,9 @@ tags:
 
 ### {Quarter 4} 
 
-- [ ]
-
 ## To-Do
 
-- [ ]
-
 ## Goals
-
-- [ ]
 
 ## Journal
 
