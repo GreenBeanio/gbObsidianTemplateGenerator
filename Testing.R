@@ -28,7 +28,7 @@ template_dir <- file.path(input_dir, "Templates")
 
 unlink(file.path(output_dir, "*"), recursive = T, force = T)
 
-test_date <- as.Date("2026-01-01")
+test_date <- as.Date("2026-12-01")
 
 # createYear(input_date = test_date,
 #            template_dir = template_dir,

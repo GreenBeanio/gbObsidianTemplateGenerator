@@ -187,7 +187,7 @@ createMonth <- \(input_date,
   if(start_week_day != 1) {
     start_day_off <- 7 - start_week_day + 1
     first_monday <- input_date + lubridate::days(start_day_off)
-    week_dates <- purrr::map2_vec(2:week_count, 
+    week_dates <- purrr::map2_vec(1:(week_count-1), 
                                   first_monday,
                                   \(c_wk, sd) sd + lubridate::weeks(c_wk - 1))
     week_dates <- c(start_month_day, week_dates)
@@ -264,23 +264,53 @@ createWeek <- \(input_date,
   # Load template and replace the constant variables
   loaded_template <- loaded_template |> 
     obsidianMetadataReplace(c_title, c_creation_date, c_unique_timestamp)
-  # Move start date to the first monday of the week
+  
+  # # Move start date to the first Monday of the week
+  # w_day <- lubridate::wday(input_date, week_start = 1)
+  # w_offset <- w_day - 1
+  # m_day <- as.numeric(lubridate::mday(input_date))
+  # cur_offset <- min(w_offset, m_day - 1)
+  # if(cur_offset > 0) {
+  #   input_date <- input_date - lubridate::days(cur_offset)
+  # }
+  # 
+  # # Make sure the week doesn't go into the next month
+  # m_day <- as.numeric(lubridate::mday(input_date))
+  # end_mday <- lubridate::mday(input_date + lubridate::weeks(1))
+  # end_offset <- 6
+  # if(end_mday < m_day) {
+  #   end_offset <- 7 - end_mday
+  # }
+  # end_date <- input_date + lubridate::days(end_offset)
+  
+  # Prevent the week starting in the previous year
   w_day <- lubridate::wday(input_date, week_start = 1)
-  w_offset <- w_day - 1
-  m_day <- as.numeric(lubridate::mday(input_date))
-  cur_offset <- min(w_offset, m_day - 1)
-  if(cur_offset > 0) {
-    input_date <- input_date - lubridate::days(cur_offset)
+  if(w_day != 1) {
+    first_monday <- input_date - lubridate::days(w_day) + 1
+  } else {
+    first_monday <- input_date
   }
-  # Make sure the week doesn't go into the next month
-  m_day <- as.numeric(lubridate::mday(input_date))
-  end_mday <- lubridate::mday(input_date + lubridate::weeks(1))
-  end_offset <- 6
-  if(end_mday < m_day) {
-    end_offset <- 7 - end_mday
+  if(lubridate::year(first_monday) == lubridate::year(input_date)) {
+    input_date <- first_monday
+  } else {
+    input_date <- input_date - lubridate::days(lubridate::mday(input_date) - 1)
   }
-  end_date <- input_date + lubridate::days(end_offset)
+  # If it's the first year of the month the end date is different
+  end_date <- lubridate::Date()
+  w_day <- lubridate::wday(input_date, week_start = 1)
+  if(w_day != 1) {
+    end_date <- input_date + lubridate::days(7 - w_day)
+  } else {
+    end_date <- input_date + lubridate::weeks(1)
+  }
+  # Prevent the week ending in the subsequent year
+  if(lubridate::year(end_date) != lubridate::year(input_date)) {
+    m_day <- as.numeric(lubridate::mday(end_date))
+    end_date <- end_date - lubridate::days(m_day)
+    #end_date <- lubridate::ceiling_date(input_date, unit = "month") - lubridate::days(1)
+  }
   date_seq <- seq.Date(input_date, end_date, by = "day")
+  
   # Get days
   w_days <- purrr::map(date_seq, 
                        \(x) createDay(input_date = x,
