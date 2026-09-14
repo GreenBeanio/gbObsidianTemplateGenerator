@@ -1,6 +1,6 @@
 ---
 title:  {title} Daily Note
-author: {author}
+author: Garrett Johnson
 initial-date:  {creation_date}
 latest-revision:  {creation_date}
 unique-suffix:  u-{unique_timestamp}
@@ -9,6 +9,7 @@ tags:
   - Cluster/Notes/Daily
   - Life-Cycle/On-Going
   - Vault/Main
+  - Connections/None
 ---
 #  {title} Daily Note
 
