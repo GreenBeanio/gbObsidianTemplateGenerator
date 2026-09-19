@@ -51,6 +51,7 @@ existing file will not be overwritten.
 
 \examples{
 \dontrun{
+createDay()
 }
 
 }

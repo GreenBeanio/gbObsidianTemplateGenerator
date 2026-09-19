@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' createWeek()
 #' }
 #'
 #' @importFrom glue glue

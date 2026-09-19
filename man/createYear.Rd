@@ -54,6 +54,7 @@ existing file will not be overwritten.
 
 \examples{
 \dontrun{
+createYear()
 }
 
 }

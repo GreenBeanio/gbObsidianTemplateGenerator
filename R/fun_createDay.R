@@ -27,6 +27,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' createDay()
 #' }
 #'
 #' @importFrom glue glue

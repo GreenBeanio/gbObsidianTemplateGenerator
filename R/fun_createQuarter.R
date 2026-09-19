@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' createQuarter()
 #' }
 #'
 #' @importFrom glue glue

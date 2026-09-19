@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' createMonth()
 #' }
 #'
 #' @importFrom glue glue

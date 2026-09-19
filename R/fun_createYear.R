@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' createYear()
 #' }
 #'
 #' @importFrom glue glue
