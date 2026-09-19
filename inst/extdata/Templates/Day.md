@@ -1,6 +1,6 @@
 ---
 title:  {title} Daily Note
-author: Garrett Johnson
+author: {author}
 initial-date:  {creation_date}
 latest-revision:  {creation_date}
 unique-suffix:  u-{unique_timestamp}
