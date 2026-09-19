@@ -9,7 +9,7 @@
 #' @param output_dir A directory to output the processed templates to
 #' (Default: here::here())
 #' @param author The name of the author for the file
-#' (Default: Sys.info[["user"]])
+#' (Default: Sys.info()[["user"]])
 #' @param template_pre  An optional prefix on your "Month.md" file to use a
 #' different template
 #' (Default: "")
@@ -40,7 +40,7 @@ createMonth <- \(input_date = Sys.Date(),
                  template_dir = system.file("extdata", "Templates",
                                             package = "gbObsidianTemplateGenerator"),
                  output_dir = here::here(),
-                 author = Sys.info[["user"]],
+                 author = Sys.info()[["user"]],
                  template_pre = "",
                  unique_timestamp = Sys.time(),
                  header_func = makeObsidianFilePath) {
@@ -93,7 +93,7 @@ createMonth <- \(input_date = Sys.Date(),
   # from the current month. This correctly assigns the weeks in the template.
   if(start_week_day != 1) {
     start_day_off <- 7 - start_week_day + 1
-    first_monday <- input_date + lubridate::days(start_day_off)
+    first_monday <- start_month_day + lubridate::days(start_day_off)
     week_dates <- purrr::map2_vec(1:(week_count-1),
                                   first_monday,
                                   \(c_wk, sd) sd + lubridate::weeks(c_wk - 1))
@@ -113,8 +113,8 @@ createMonth <- \(input_date = Sys.Date(),
     purrr::flatten() |>
     header_func()
   loaded_template <- replaceHeaderLinks(
-    c_weeks,
-    paste0("Week ", 1:6),#1:length(c_weeks)),
+    list(Weeks = c_weeks),
+    c("Weeks", paste0("Week ", 1:6)),
     loaded_template)
   # Write the file and add to output
   readr::write_file(loaded_template, c_output)

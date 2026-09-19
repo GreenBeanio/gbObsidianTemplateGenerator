@@ -9,7 +9,7 @@
 #' @param output_dir A directory to output the processed templates to
 #' (Default: here::here())
 #' @param author The name of the author for the file
-#' (Default: Sys.info[["user"]])
+#' (Default: Sys.info()[["user"]])
 #' @param template_pre  An optional prefix on your "Week.md" file to use a
 #' different template
 #' (Default: "")
@@ -40,7 +40,7 @@ createWeek <- \(input_date = Sys.Date(),
                 template_dir = system.file("extdata", "Templates",
                                            package = "gbObsidianTemplateGenerator"),
                 output_dir = here::here(),
-                author = Sys.info[["user"]],
+                author = Sys.info()[["user"]],
                 template_pre = "",
                 unique_timestamp = Sys.time(),
                 header_func = makeObsidianFilePath) {
@@ -98,7 +98,7 @@ createWeek <- \(input_date = Sys.Date(),
   if(w_day != 1) {
     end_date <- input_date + lubridate::days(7 - w_day)
   } else {
-    end_date <- input_date + lubridate::weeks(1)
+    end_date <- input_date + lubridate::weeks(1) - lubridate::days(1)
   }
   # Prevent the week ending in the subsequent year
   if(lubridate::year(end_date) != lubridate::year(input_date)) {
@@ -118,8 +118,8 @@ createWeek <- \(input_date = Sys.Date(),
     purrr::flatten() |>
     header_func()
   loaded_template <- replaceHeaderLinks(
-    w_days,
-    weekdays(seq.Date(as.Date("2026-09-07"), by = "day", length.out = 7)),
+    list(Days = w_days),
+    c("Days", weekdays(seq.Date(as.Date("2026-09-07"), by = "day", length.out = 7))),
     loaded_template)
   # Write the file and add to output
   readr::write_file(loaded_template, c_output)

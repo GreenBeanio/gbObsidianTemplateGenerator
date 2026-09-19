@@ -40,7 +40,7 @@
 #'                               package = "gbObsidianTemplateGenerator")))
 #' }
 #'
-#' @seealso [replaceHeaderLinksNested()]
+#' @seealso [replaceHeaderLinksGroup()]
 #' @seealso [replaceHeaderLinksSingle()]
 #' @family replaceHeaderLinks
 #' @importFrom stringr str_replace_all
@@ -53,7 +53,7 @@ replaceHeaderLinks <- \(header_values, possible_header_values, template) {
   character_values <- header_values[!length_list]
   header_values <- header_values[length_list]
   # Handle the grouped header_values
-  template <- replaceHeaderLinksNested(
+  template <- replaceHeaderLinksGroup(
     header_values = header_values,
     possible_header_values = possible_header_values,
     template = template)

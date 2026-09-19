@@ -9,7 +9,7 @@
 #' @param output_dir A directory to output the processed templates to
 #' (Default: here::here())
 #' @param author The name of the author for the file
-#' (Default: Sys.info[["user"]])
+#' (Default: Sys.info()[["user"]])
 #' @param template_pre  An optional prefix on your "Day.md" file to use a
 #' different template
 #' (Default: "")
@@ -38,7 +38,7 @@ createDay <- \(input_date = Sys.Date(),
                template_dir = system.file("extdata", "Templates",
                                           package = "gbObsidianTemplateGenerator"),
                output_dir = here::here(),
-               author = Sys.info[["user"]],
+               author = Sys.info()[["user"]],
                template_pre = "",
                unique_timestamp = Sys.time(),
                header_func = makeObsidianFilePath) {
