@@ -19,7 +19,7 @@
 #' (Default: makeObsidianFilePath)
 #'
 #' @returns
-#' A list with the Day of the week as the key and the path to the exported file
+#' A list with the Week of the month as the key and the path to the exported file
 #' as the value.
 #'
 #' @section Additional Information:

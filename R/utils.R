@@ -33,7 +33,7 @@
 #'       `Week 3` = "test_file_3.md",
 #'       `Week 4` = "test_file_4.md"),
 #'     `Daily Quote` = "test_file_5.md"),
-#'  possible_header_values = c("Weeks, "Daily Quote", paste0("Week ", 1:4)),
+#'  possible_header_values = c("Weeks", "Daily Quote", paste0("Week ", 1:4)),
 #'  template = readr::read_file(system.file(
 #'                               "inst", "extdata",
 #'                               "Templates", "Year.md",
