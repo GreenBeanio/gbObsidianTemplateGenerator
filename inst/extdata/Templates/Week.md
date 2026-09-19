@@ -16,19 +16,7 @@ tags:
 
 ## Daily Tasks
 
-### {Monday}
-
-### {Tuesday}
-
-### {Wednesday}
-
-### {Thursday}
-
-### {Friday}
-
-### {Saturday}
-
-### {Sunday}
+### {Days}
 
 ## Journal
 
