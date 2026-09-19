@@ -54,6 +54,7 @@ createMonth <- \(input_date = Sys.Date(),
     template_file <- glue::glue("{template_pre}{template_file}")
   }
   loaded_template <- readr::read_file(file.path(template_dir, template_file))
+  input_date <- lubridate::date(input_date)
   c_month <- lubridate::month(input_date)
   c_year <- lubridate::year(input_date)
   quarter_month <- lubridate::month(lubridate::floor_date(input_date, unit = "quarter"))

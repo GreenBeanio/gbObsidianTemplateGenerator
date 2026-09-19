@@ -54,6 +54,7 @@ createWeek <- \(input_date = Sys.Date(),
     template_file <- glue::glue("{template_pre}{template_file}")
   }
   loaded_template <- readr::read_file(file.path(template_dir, template_file))
+  input_date <- lubridate::date(input_date)
   c_week <- lubridate::isoweek(input_date)
   c_year <- lubridate::year(input_date)
   # This variable will change depending on the month that calls it, which is what I want

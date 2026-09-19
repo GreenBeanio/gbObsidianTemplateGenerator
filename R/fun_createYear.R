@@ -54,6 +54,7 @@ createYear <- \(input_date = Sys.Date(),
     template_file <- glue::glue("{template_pre}{template_file}")
   }
   loaded_template <- readr::read_file(file.path(template_dir, template_file))
+  input_date <- lubridate::date(input_date)
   c_year <- lubridate::year(input_date)
   output_list <- list()
   # Get the constant variables
