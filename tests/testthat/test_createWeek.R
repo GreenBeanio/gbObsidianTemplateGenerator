@@ -1,5 +1,6 @@
 test_that("createWeek", {
-  temp_dir <- tempdir()
+  temp_dir <- file.path(tempdir(), "Ouput")
+  dir.create(temp_dir)
   output_path <- createWeek(input_date = test_time,
                             output_dir = temp_dir,
                             unique_timestamp = test_time,
@@ -7,5 +8,5 @@ test_that("createWeek", {
   test_result <- readr::read_file(output_path[[1]])
   loaded_file <- readRDS(testthat::test_path("testdata", "create_week.rda"))
   testthat::expect_equal(test_result, loaded_file)
-  unlink(temp_dir)
+  unlink(temp_dir, recursive = TRUE, force = TRUE)
 })
