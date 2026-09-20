@@ -9,12 +9,14 @@
 #' @param output_dir A directory to output the processed templates to
 #' (Default: here::here())
 #' @param author The name of the author for the file
-#' (Default: Sys.info()[["user"]])
+#' (Default: \code{Sys.info()[["user"]]})
 #' @param template_pre  An optional prefix on your "Day.md" file to use a
 #' different template
 #' (Default: "")
 #' @param unique_timestamp A time object to use as the file's unique time stamp
 #' (Default: Sys.time())
+#' @param header_func The function to use to process the links in the template
+#' (Default: makeObsidianFilePath)
 #'
 #' @returns
 #' A list with the Day of the week as the key and the path to the exported file
@@ -34,6 +36,7 @@
 #' @importFrom readr read_file
 #' @importFrom lubridate date wday year month
 #' @importFrom stringr str_pad
+#' @importFrom here here
 #' @export
 createDay <- \(input_date = Sys.Date(),
                template_dir = system.file("extdata", "Templates",
@@ -55,9 +58,10 @@ createDay <- \(input_date = Sys.Date(),
   input_date <- lubridate::date(input_date)
   output_list <- list()
   # Get the constant variables
-  c_title <- strftime(input_date, "%Y_%m_%d")
-  c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d")
-  c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
+  c_tz <- lubridate::tz(unique_timestamp)
+  c_title <- strftime(input_date, "%Y_%m_%d", tz = c_tz)
+  c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d", tz = c_tz)
+  c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S", tz = c_tz)
   # Get the output path and check if it exists
   output_name <- as.character(lubridate::wday(input_date, label = TRUE,
                                               abbr = FALSE, week_start = 1))

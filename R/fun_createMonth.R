@@ -9,7 +9,7 @@
 #' @param output_dir A directory to output the processed templates to
 #' (Default: here::here())
 #' @param author The name of the author for the file
-#' (Default: Sys.info()[["user"]])
+#' (Default: \code{Sys.info()[["user"]]})
 #' @param template_pre  An optional prefix on your "Month.md" file to use a
 #' different template
 #' (Default: "")
@@ -36,6 +36,7 @@
 #' @importFrom readr read_file
 #' @importFrom lubridate month isoweek year ceiling_date floor_date wday days weeks
 #' @importFrom purrr map flatten map2_vec
+#' @importFrom here here
 #' @export
 createMonth <- \(input_date = Sys.Date(),
                  template_dir = system.file("extdata", "Templates",
@@ -61,8 +62,9 @@ createMonth <- \(input_date = Sys.Date(),
   output_list <- list()
   # Get the constant variables
   c_title <- glue::glue("{c_year}_{c_month |> stringr::str_pad(2, 'left', '0')}")
-  c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d")
-  c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S")
+  c_tz <- lubridate::tz(unique_timestamp)
+  c_creation_date <- strftime(unique_timestamp, "%Y-%m-%d", tz = c_tz)
+  c_unique_timestamp <- strftime(unique_timestamp, "%Y%m%d%H%M%S", tz = c_tz)
   # Get the output path and check if it exists
   output_name <- glue::glue("Month {c_month - quarter_month + 1}")
   cur_output_dir <- file.path(output_dir, "2_Monthly Notes", lubridate::year(input_date))
