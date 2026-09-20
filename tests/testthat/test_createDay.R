@@ -2,7 +2,8 @@ test_that("createDay", {
   temp_dir <- tempdir()
   output_path <- createDay(input_date = test_time,
                            output_dir = temp_dir,
-                           unique_timestamp = test_time)
+                           unique_timestamp = test_time,
+                           author = "Test User")
   test_result <- readr::read_file(output_path[[1]])
   loaded_file <- readRDS(testthat::test_path("testdata", "create_day.rda"))
   testthat::expect_equal(test_result, loaded_file)
