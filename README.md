@@ -75,3 +75,9 @@ field.
 ### Day
 
 The day has no additional fields.
+
+## Code Coverage
+
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/GreenBeanio/gbObsidianTemplateGenerator/branch/main/graph/badge.svg)](https://app.codecov.io/gh/GreenBeanio/gbObsidianTemplateGenerator?branch=main)
+<!-- badges: end -->

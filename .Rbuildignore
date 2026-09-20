@@ -6,3 +6,5 @@
 ^pkgdown$
 ^\.github$
 ^data-raw$
+^\.covrignore$
+^codecov\.yml$
