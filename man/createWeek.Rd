@@ -26,7 +26,7 @@ createWeek(
 (Default: here::here())}
 
 \item{author}{The name of the author for the file
-(Default: Sys.info()[\link{"user"}])}
+(Default: \code{Sys.info()[["user"]]})}
 
 \item{template_pre}{An optional prefix on your "Week.md" file to use a
 different template

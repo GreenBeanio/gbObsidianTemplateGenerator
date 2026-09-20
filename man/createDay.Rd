@@ -26,7 +26,7 @@ createDay(
 (Default: here::here())}
 
 \item{author}{The name of the author for the file
-(Default: Sys.info()[\link{"user"}])}
+(Default: \code{Sys.info()[["user"]]})}
 
 \item{template_pre}{An optional prefix on your "Day.md" file to use a
 different template
@@ -34,6 +34,9 @@ different template
 
 \item{unique_timestamp}{A time object to use as the file's unique time stamp
 (Default: Sys.time())}
+
+\item{header_func}{The function to use to process the links in the template
+(Default: makeObsidianFilePath)}
 }
 \value{
 A list with the Day of the week as the key and the path to the exported file
