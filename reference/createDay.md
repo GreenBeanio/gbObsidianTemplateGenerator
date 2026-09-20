@@ -36,7 +36,7 @@ createDay(
 
 - author:
 
-  The name of the author for the file (Default: Sys.info()\["user"\])
+  The name of the author for the file (Default: `Sys.info()[["user"]]`)
 
 - template_pre:
 
@@ -47,6 +47,11 @@ createDay(
 
   A time object to use as the file's unique time stamp (Default:
   Sys.time())
+
+- header_func:
+
+  The function to use to process the links in the template (Default:
+  makeObsidianFilePath)
 
 ## Value
 

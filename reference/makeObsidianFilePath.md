@@ -32,9 +32,9 @@ file in any way you desire without needing to update the references.
 if (FALSE) { # \dontrun{
 makeObsidianFilePath(
   list_of_paths = list(
-    `Quarter 1` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_1 Quarterly Note u-00000000000000.md",
-    `Quarter 2` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_2 Quarterly Note u-00000000000000.md",
-    `Quarter 3` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_3 Quarterly Note u-00000000000000.md",
-    `Quarter 4` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_4 Quarterly Note u-00000000000000.md"))
+    `Quarter 1` = "/home/.../2026_1 Quarterly Note u-00000000000000.md",
+    `Quarter 2` = "/home/.../2026_2 Quarterly Note u-00000000000000.md",
+    `Quarter 3` = "/home/.../2026_3 Quarterly Note u-00000000000000.md",
+    `Quarter 4` = "/home/.../2026_4 Quarterly Note u-00000000000000.md"))
 } # }
 ```

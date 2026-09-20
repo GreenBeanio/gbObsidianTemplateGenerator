@@ -36,7 +36,7 @@ createWeek(
 
 - author:
 
-  The name of the author for the file (Default: Sys.info()\["user"\])
+  The name of the author for the file (Default: `Sys.info()[["user"]]`)
 
 - template_pre:
 
