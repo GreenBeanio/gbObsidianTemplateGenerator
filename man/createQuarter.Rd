@@ -52,6 +52,20 @@ processed file. If a file already exists the path will be returned but the
 existing file will not be overwritten.
 }
 
+\section{Templates}{
+
+The "Quarter.md" template should have the following variables:
+\itemize{
+\item \code{{title}}
+\item \code{{creation_date}}
+\item \code{{unique_timestamp}}
+\item \code{{author}}
+\item \verb{\{Month 1\}}
+\item \verb{\{Month 2\}}
+\item \verb{\{Month 3\}}
+}
+}
+
 \examples{
 \dontrun{
 createQuarter()

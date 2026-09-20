@@ -27,6 +27,17 @@
 #' processed file. If a file already exists the path will be returned but the
 #' existing file will not be overwritten.
 #'
+#' @section Templates:
+#' The "Year.md" template should have the following variables:
+#' - `{title}`
+#' - `{creation_date}`
+#' - `{unique_timestamp}`
+#' - `{author}`
+#' - `{Quarter 1}`
+#' - `{Quarter 2}`
+#' - `{Quarter 3}`
+#' - `{Quarter 4}`
+#'
 #' @examples
 #' \dontrun{
 #' createYear()

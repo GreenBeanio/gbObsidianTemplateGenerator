@@ -58,8 +58,8 @@ replaceHeaderLinks <- replaceHeaderLinks(
 
 \code{\link[=replaceHeaderLinksSingle]{replaceHeaderLinksSingle()}}
 
-Other replaceHeaderLinks: 
-\code{\link{replaceHeaderLinksGroup}()},
-\code{\link{replaceHeaderLinksSingle}()}
+Other replaceHeaderLinks:
+\code{\link[=replaceHeaderLinksGroup]{replaceHeaderLinksGroup()}},
+\code{\link[=replaceHeaderLinksSingle]{replaceHeaderLinksSingle()}}
 }
 \concept{replaceHeaderLinks}

@@ -27,6 +27,16 @@
 #' processed file. If a file already exists the path will be returned but the
 #' existing file will not be overwritten.
 #'
+#' @section Templates:
+#' The "Quarter.md" template should have the following variables:
+#' - `{title}`
+#' - `{creation_date}`
+#' - `{unique_timestamp}`
+#' - `{author}`
+#' - `{Month 1}`
+#' - `{Month 2}`
+#' - `{Month 3}`
+#'
 #' @examples
 #' \dontrun{
 #' createQuarter()

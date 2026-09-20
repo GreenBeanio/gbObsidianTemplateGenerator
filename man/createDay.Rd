@@ -52,6 +52,17 @@ processed file. If a file already exists the path will be returned but the
 existing file will not be overwritten.
 }
 
+\section{Templates}{
+
+The "Day.md" template should have the following variables:
+\itemize{
+\item \code{{title}}
+\item \code{{creation_date}}
+\item \code{{unique_timestamp}}
+\item \code{{author}}
+}
+}
+
 \examples{
 \dontrun{
 createDay()

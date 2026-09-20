@@ -13,22 +13,29 @@ export(replaceHeaderLinksSingle)
 importFrom(glue,glue)
 importFrom(here,here)
 importFrom(htmltools,urlEncodePath)
-importFrom(lubridate,ceiling_date)
-importFrom(lubridate,date)
-importFrom(lubridate,days)
-importFrom(lubridate,floor_date)
-importFrom(lubridate,isoweek)
-importFrom(lubridate,make_date)
-importFrom(lubridate,month)
-importFrom(lubridate,quarter)
-importFrom(lubridate,wday)
-importFrom(lubridate,weeks)
-importFrom(lubridate,year)
-importFrom(purrr,flatten)
-importFrom(purrr,map)
-importFrom(purrr,map2_vec)
-importFrom(purrr,map_vec)
+importFrom(lifecycle,deprecated)
+importFrom(lubridate,
+  ceiling_date,
+  date,
+  days,
+  floor_date,
+  isoweek,
+  make_date,
+  month,
+  quarter,
+  wday,
+  weeks,
+  year
+)
+importFrom(purrr,
+  flatten,
+  map,
+  map2_vec,
+  map_vec
+)
 importFrom(readr,read_file)
-importFrom(stringr,str_match)
-importFrom(stringr,str_pad)
-importFrom(stringr,str_replace_all)
+importFrom(stringr,
+  str_match,
+  str_pad,
+  str_replace_all
+)

@@ -27,6 +27,13 @@
 #' processed file. If a file already exists the path will be returned but the
 #' existing file will not be overwritten.
 #'
+#' @section Templates:
+#' The "Day.md" template should have the following variables:
+#' - `{title}`
+#' - `{creation_date}`
+#' - `{unique_timestamp}`
+#' - `{author}`
+#'
 #' @examples
 #' \dontrun{
 #' createDay()

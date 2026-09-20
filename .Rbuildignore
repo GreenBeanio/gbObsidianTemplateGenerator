@@ -10,3 +10,5 @@
 ^data-raw$
 ^\.covrignore$
 ^codecov\.yml$
+^vignettes/\.quarto$
+^vignettes/*_files$
