@@ -3,5 +3,6 @@ output_path <- createQuarter(input_date = test_time,
                          output_dir = temp_dir,
                          unique_timestamp = test_time)
 loaded_file <- readr::read_file(output_path[[1]])
-save(loaded_file,
-     file = testthat::test_path("testdata", "create_quarter.rda"))
+saveRDS(loaded_file,
+        file = testthat::test_path("testdata", "create_quarter.rda"))
+unlink(temp_dir)

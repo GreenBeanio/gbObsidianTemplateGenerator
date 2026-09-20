@@ -7,5 +7,5 @@ test_time <- lubridate::make_datetime(year = 2026,
                                       min = 30,
                                       sec = 30,
                                       tz = "UTC")
-save(test_time,
-     file = testthat::test_path("testdata", "0_test_time.rda"))
+saveRDS(test_time,
+        file = testthat::test_path("testdata", "0_test_time.rda"))
