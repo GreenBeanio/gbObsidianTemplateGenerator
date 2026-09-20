@@ -4,8 +4,8 @@ test_that("obsidianMetadataReplace", {
                                            "Templates", "Day.md",
                                            package = "gbObsidianTemplateGenerator")),
     title = strftime(test_time, "%Y_%m_%d"),
-    creation_date = strftime(test_time, "%Y-%m-%d"),
-    unique_timestamp = strftime(test_time, "%Y%m%d%H%M%S"),
+    creation_date = strftime(test_time, "%Y-%m-%d",lubridate::tz(test_time)),
+    unique_timestamp = strftime(test_time, "%Y%m%d%H%M%S", lubridate::tz(test_time)),
     author = "Test User")
   loaded_file <- readRDS(testthat::test_path("testdata", "obsidian_metadata_replace.rda"))
   testthat::expect_equal(obsidian_metadata_replace, loaded_file)

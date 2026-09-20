@@ -5,6 +5,7 @@ output_path <- createQuarter(input_date = test_time,
                          unique_timestamp = test_time,
                          author = "Test User")
 loaded_file <- readr::read_file(output_path[[1]])
+loaded_file <- loaded_file |> stringr::str_replace_all("/r", "")
 saveRDS(loaded_file,
         file = testthat::test_path("testdata", "create_quarter.rda"))
 unlink(temp_dir, recursive = TRUE, force = TRUE)
