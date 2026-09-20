@@ -45,8 +45,8 @@ header_values
 ## See also
 
 Other replaceHeaderLinks:
-[`replaceHeaderLinksGroup()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksGroup.md),
-[`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md)
+[`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md),
+[`replaceHeaderLinksGroup()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksGroup.md)
 
 ## Examples
 

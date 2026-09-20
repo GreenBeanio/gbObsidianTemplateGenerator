@@ -64,6 +64,20 @@ This function will export the processed file and return the path to the
 processed file. If a file already exists the path will be returned but
 the existing file will not be overwritten.
 
+## Templates
+
+The "Week.md" template should have the following variables:
+
+- `{title}`
+
+- `{creation_date}`
+
+- `{unique_timestamp}`
+
+- `{author}`
+
+- `{Days}`
+
 ## Examples
 
 ``` r

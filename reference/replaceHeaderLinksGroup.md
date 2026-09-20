@@ -54,8 +54,8 @@ erased.
 ## See also
 
 Other replaceHeaderLinks:
-[`replaceHeaderLinksSingle()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksSingle.md),
-[`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md)
+[`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md),
+[`replaceHeaderLinksSingle()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksSingle.md)
 
 ## Examples
 

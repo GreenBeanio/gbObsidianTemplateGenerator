@@ -64,6 +64,24 @@ This function will export the processed file and return the path to the
 processed file. If a file already exists the path will be returned but
 the existing file will not be overwritten.
 
+## Templates
+
+The "Quarter.md" template should have the following variables:
+
+- `{title}`
+
+- `{creation_date}`
+
+- `{unique_timestamp}`
+
+- `{author}`
+
+- `{Month 1}`
+
+- `{Month 2}`
+
+- `{Month 3}`
+
 ## Examples
 
 ``` r

@@ -32,6 +32,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/Getting_Started.html">Getting Started</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -47,104 +54,9 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="obsidian-template-generator">Obsidian Template Generator<a class="anchor" aria-label="anchor" href="#obsidian-template-generator"></a>
 </h1></div>
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
-<p>This is a tool meant to generate missing daily note templates for my Obsidian notes.</p>
-<p>It is not very extensible.</p>
-<p>The templates require fields to be replaced that are named inside of curly brackets.</p>
-<p>Such as: <code>{title}</code></p>
-</div>
-<div class="section level2">
-<h2 id="template-fields">Template Fields<a class="anchor" aria-label="anchor" href="#template-fields"></a>
-</h2>
-<div class="section level3">
-<h3 id="required-fields">Required Fields<a class="anchor" aria-label="anchor" href="#required-fields"></a>
-</h3>
-<p>All of the templates have these 3 fields inside of the Obsidian YAML headers:</p>
-<ul>
-<li>
-<code>{title}</code>: This is added to the title of the document.</li>
-<li>
-<code>{creation_date}</code>: This is the date the file is generated on.</li>
-<li>
-<code>{unique_timestamp}</code>: This is the unique time stamp that I use to guarantee files are unique even if they have the same title.
-<ul>
-<li>This is important because I use the Obsidian file names for linking instead of cumbersome relative or absolute paths.</li>
-<li>In my documents the file name is constructed with <code>{title} u-{unique_timestamp}</code>.
-<ul>
-<li>Do note that the templates do have extra information added to the title.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<code>{author}</code>: This is the name of who is using the template.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="year">Year<a class="anchor" aria-label="anchor" href="#year"></a>
-</h3>
-<p>The year has 4 fields:</p>
-<ul>
-<li><code>{Quarter 1}</code></li>
-<li><code>{Quarter 2}</code></li>
-<li><code>{Quarter 3}</code></li>
-<li><code>{Quarter 4}</code></li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="quarter">Quarter<a class="anchor" aria-label="anchor" href="#quarter"></a>
-</h3>
-<p>The quarter has 3 fields:</p>
-<ul>
-<li><code>{Month 1}</code></li>
-<li><code>{Month 2}</code></li>
-<li><code>{Month 3}</code></li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="month">Month<a class="anchor" aria-label="anchor" href="#month"></a>
-</h3>
-<p>The month has 6 fields:</p>
-<ul>
-<li><code>{Week 1}</code></li>
-<li><code>{Week 2}</code></li>
-<li><code>{Week 3}</code></li>
-<li><code>{Week 4}</code></li>
-<li><code>{Week 5}</code></li>
-<li><code>{Week 6}</code></li>
-</ul>
-<p>There are 6 of these because that’s the max amount of weeks a month can have.</p>
-<p>This is annoying and I will probably just replace it with a single field and have the code generate only the needed months.</p>
-</div>
-<div class="section level3">
-<h3 id="week">Week<a class="anchor" aria-label="anchor" href="#week"></a>
-</h3>
-<p>The week has 7 fields:</p>
-<ul>
-<li><code>{Monday}</code></li>
-<li><code>{Tuesday}</code></li>
-<li><code>{Wednesday}</code></li>
-<li><code>{Thursday}</code></li>
-<li><code>{Friday}</code></li>
-<li><code>{Saturday}</code></li>
-<li><code>{Sunday}</code></li>
-</ul>
-<p>This is another annoying one where I will probably replace it with a single field.</p>
-</div>
-<div class="section level3">
-<h3 id="day">Day<a class="anchor" aria-label="anchor" href="#day"></a>
-</h3>
-<p>The day has no additional fields.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="code-coverage">Code Coverage<a class="anchor" aria-label="anchor" href="#code-coverage"></a>
-</h2>
 <!-- badges: start -->
 
-</div>
+<p>This is a tool meant to generate missing daily note templates for my Obsidian notes.</p>
 </div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
