@@ -1,0 +1,40 @@
+# makeObsidianFilePath
+
+Extracts the file names from the passed paths for Obsidian to use for
+links
+
+## Usage
+
+``` r
+makeObsidianFilePath(list_of_paths)
+```
+
+## Arguments
+
+- list_of_paths:
+
+  A list of paths to process
+
+## Value
+
+A list of modified paths (in this case just the file names)
+
+## Additional Information
+
+Obsidian allows you to use unique file names for links instead of
+needing relative or absolute paths to the files. This function extracts
+just the unique file names needed. This allows you to reorganize the
+file in any way you desire without needing to update the references.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+makeObsidianFilePath(
+  list_of_paths = list(
+    `Quarter 1` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_1 Quarterly Note u-00000000000000.md",
+    `Quarter 2` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_2 Quarterly Note u-00000000000000.md",
+    `Quarter 3` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_3 Quarterly Note u-00000000000000.md",
+    `Quarter 4` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_4 Quarterly Note u-00000000000000.md"))
+} # }
+```

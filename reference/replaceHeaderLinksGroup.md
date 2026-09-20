@@ -1,0 +1,77 @@
+# replaceHeaderLinksGroup
+
+Generates a group of headers and links to insert into a template
+
+## Usage
+
+``` r
+replaceHeaderLinksGroup(header_values, possible_header_values, template)
+```
+
+## Arguments
+
+- header_values:
+
+  A list where the key (or name) is the group header keyword and the
+  value is a list with keys of new headers and their link
+
+- possible_header_values:
+
+  A vector of all possible headers to check for
+
+- template:
+
+  A loaded template file as a character string (such as from
+  readr::read_file)
+
+## Value
+
+The template with the possible_header_values replaced with the generated
+headers from the header_values
+
+## Additional Information
+
+The possible_header_values needs to contain both the valid options for
+the possible group names and the header names. Such that if you have a
+group header in your template called "Weeks" and you want it to allow
+the values "Week 1" through 'Week 5" then you need to include all of
+those values in the possible_header_values vector. This is mainly done
+to easily allow interoperability with `replaceHeaderLinksSingle`. If you
+need to separate the possible_header_values for specific groups my
+suggestion would be to run the function multiple times while adjusting
+possible_header_values.
+
+Unlike the `replaceHeaderLinksSingle` function this will not replace
+unmatched possible_header_values with unlinked headers. Instead this
+will only generate headers that are in the header_values and are in the
+`possible_header_values`. If you need the headers to always be created
+manually add them in your template and use `replaceHeaderLinksSingle`.
+
+In the event that no valid matches are found for the group the group
+will be replaced with nothing. Meaning that the line will essentially be
+erased.
+
+## See also
+
+Other replaceHeaderLinks:
+[`replaceHeaderLinksSingle()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksSingle.md),
+[`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+replaceHeaderLinks <- replaceHeaderLinksGroup(
+  header_values = list(
+    `Weeks` = list(
+      `Week 1` = "test_file_1.md",
+      `Week 2` = "test_file_2.md",
+      `Week 3` = "test_file_3.md",
+      `Week 4` = "test_file_4.md")),
+ possible_header_values = c("Weeks", paste0("Week ", 1:4)),
+ template = readr::read_file(system.file(
+                              "inst", "extdata",
+                              "Templates", "Year.md",
+                              package = "gbObsidianTemplateGenerator")))
+} # }
+```

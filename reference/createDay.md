@@ -1,0 +1,68 @@
+# createDay
+
+Creates a daily template
+
+## Usage
+
+``` r
+createDay(
+  input_date = Sys.Date(),
+  template_dir = system.file("extdata", "Templates", package =
+    "gbObsidianTemplateGenerator"),
+  output_dir = here::here(),
+  author = Sys.info()[["user"]],
+  template_pre = "",
+  unique_timestamp = Sys.time(),
+  header_func = makeObsidianFilePath
+)
+```
+
+## Arguments
+
+- input_date:
+
+  A date object to create a template for (Default: Sys.Date())
+
+- template_dir:
+
+  A directory with the "Day.md" template file to process (Default:
+  system.file("extdata", "Templates", package =
+  "gbObsidianTemplateGenerator"))
+
+- output_dir:
+
+  A directory to output the processed templates to (Default:
+  here::here())
+
+- author:
+
+  The name of the author for the file (Default: Sys.info()\["user"\])
+
+- template_pre:
+
+  An optional prefix on your "Day.md" file to use a different template
+  (Default: "")
+
+- unique_timestamp:
+
+  A time object to use as the file's unique time stamp (Default:
+  Sys.time())
+
+## Value
+
+A list with the Day of the week as the key and the path to the exported
+file as the value.
+
+## Additional Information
+
+This function will export the processed file and return the path to the
+processed file. If a file already exists the path will be returned but
+the existing file will not be overwritten.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+createDay()
+} # }
+```

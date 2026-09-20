@@ -1,0 +1,24 @@
+# Package index
+
+## All functions
+
+- [`createDay()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createDay.md)
+  : createDay
+- [`createMonth()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createMonth.md)
+  : createMonth
+- [`createQuarter()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createQuarter.md)
+  : createQuarter
+- [`createWeek()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createWeek.md)
+  : createWeek
+- [`createYear()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createYear.md)
+  : createYear
+- [`makeObsidianFilePath()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/makeObsidianFilePath.md)
+  : makeObsidianFilePath
+- [`obsidianMetadataReplace()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/obsidianMetadataReplace.md)
+  : obsidianMetadataReplace
+- [`replaceHeaderLinks()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinks.md)
+  : replaceHeaderLinks
+- [`replaceHeaderLinksGroup()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksGroup.md)
+  : replaceHeaderLinksGroup
+- [`replaceHeaderLinksSingle()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/replaceHeaderLinksSingle.md)
+  : replaceHeaderLinksSingle
