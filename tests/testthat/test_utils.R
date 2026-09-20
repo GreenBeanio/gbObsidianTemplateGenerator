@@ -1,7 +1,8 @@
 test_that("obsidianMetadataReplace", {
   obsidian_metadata_replace <- obsidianMetadataReplace(
-    template = readr::read_file(here::here("inst", "extdata",
-                                           "Templates", "Day.md")),
+    template = readr::read_file(system.file("extdata",
+                                           "Templates", "Day.md",
+                                           package = "gbObsidianTemplateGenerator")),
     title = strftime(test_time, "%Y_%m_%d"),
     creation_date = strftime(test_time, "%Y-%m-%d"),
     unique_timestamp = strftime(test_time, "%Y%m%d%H%M%S"),
@@ -30,8 +31,9 @@ test_that("replaceHeaderLinksGroup", {
         `Week 3` = "test_file_3.md",
         `Week 4` = "test_file_4.md")),
     possible_header_values = c("Weeks", paste0("Week ", 1:4)),
-    template = readr::read_file(here::here("inst", "extdata",
-                                           "Templates", "Month.md")))
+    template = readr::read_file(system.file("extdata",
+                                           "Templates", "Month.md",
+                                           package = "gbObsidianTemplateGenerator")))
   loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_group.rda"))
   testthat::expect_equal(replace_header_links_group, loaded_file)
 })
@@ -44,8 +46,9 @@ test_that("replaceHeaderLinksSingle", {
       `Quarter 3` = "test_file_3.md",
       `Quarter 4` = "test_file_4.md"),
     possible_header_values = paste0("Quarter ", 1:4),
-    template = readr::read_file(here::here("inst", "extdata",
-                                           "Templates", "Year.md")))
+    template = readr::read_file(system.file("extdata",
+                                           "Templates", "Year.md",
+                                           package = "gbObsidianTemplateGenerator")))
   loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_single.rda"))
   testthat::expect_equal(replace_header_links_single, loaded_file)
 })
@@ -60,8 +63,9 @@ test_that("replaceHeaderLinks", {
         `Week 4` = "test_file_4.md"),
       `Daily Poem` = "daily_poem.md"),
     possible_header_values = c("Weeks", "Daily Poem", paste0("Week ", 1:4)),
-    template = readr::read_file(here::here("inst", "extdata",
-                                           "Templates", "Month.md")))
+    template = readr::read_file(system.file("extdata",
+                                           "Templates", "Month.md",
+                                           package = "gbObsidianTemplateGenerator")))
   loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links.rda"))
   testthat::expect_equal(replace_header_links, loaded_file)
 })
