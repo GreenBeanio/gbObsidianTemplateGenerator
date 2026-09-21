@@ -1,0 +1,39 @@
+---
+title: "Contributing"
+author: "Garrett Johnson"
+date: last-modified # today
+date-format: long # iso
+format: 
+  html:
+    toc: true
+    code-link: true
+embed-resources: true
+vignette: >
+  %\VignetteIndexEntry{Getting_Started}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+## Requirements
+
+You will need atleast R version 4.3.0.
+
+1. Clone this repository
+2. Use `renv::restore()` to install all the needed packages
+
+## Tools
+
+- `devtools::document()` for building documentation
+- `devtools::load_all()` for loading the package locally
+- `devtools::check()` for checking the package
+- `devtools::test()` for running the tests in the package
+- `devtools::test_coverage()` for testing code coverage
+- `usethis::use_package()` for adding any new packages
+- `renv::install()` for installing any new packages
+- `renv::snapshot()` for saving any new packages to the lock file
+- `usethis::use_version()` for incrementing versions
+- `usethis::use
