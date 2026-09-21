@@ -2,7 +2,7 @@ Package: gbObsidianTemplateGenerator
 Title: Generates Obsidian files from templates
 Version: 0.0.0.9000
 Authors@R: 
-    person("Garrett", "Johnson", role = c("aut", "cre"))
+    person("Garrett", "Johnson", "pingujohnson@gmail.com", role = c("aut", "cre"))
 Description: Generates journal like files for Obsidian from template files.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -27,5 +27,4 @@ Config/roxygen2/version: 8.1.0
 VignetteBuilder: quarto
 Config/Needs/Dev:
     devtools,
-    usethis,
-    covr
+    usethis
