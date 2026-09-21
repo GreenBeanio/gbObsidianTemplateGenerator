@@ -2,18 +2,17 @@
 
 ## Authors
 
-- **First Last**. Author, maintainer.
-  [](https://orcid.org/YOUR-ORCID-ID)
+- **Garrett Johnson**. Author, maintainer.
 
 ## Citation
 
-Last F (2026). *gbObsidianTemplateGenerator: What the Package Does (One
-Line, Title Case)*. R package version 0.0.0.9000,
+Johnson G (2026). *gbObsidianTemplateGenerator: Generates Obsidian files
+from templates*. R package version 0.0.0.9000,
 <https://greenbeanio.github.io/gbObsidianTemplateGenerator/>.
 
     @Manual{,
-      title = {gbObsidianTemplateGenerator: What the Package Does (One Line, Title Case)},
-      author = {First Last},
+      title = {gbObsidianTemplateGenerator: Generates Obsidian files from templates},
+      author = {Garrett Johnson},
       year = {2026},
       note = {R package version 0.0.0.9000},
       url = {https://greenbeanio.github.io/gbObsidianTemplateGenerator/},
