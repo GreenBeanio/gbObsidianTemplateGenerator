@@ -25,3 +25,7 @@ Imports:
     stringr
 Config/roxygen2/version: 8.1.0
 VignetteBuilder: quarto
+Config/Needs/Dev:
+    devtools,
+    usethis,
+    covr
