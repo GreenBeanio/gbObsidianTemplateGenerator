@@ -36,6 +36,7 @@ You will need at least R version 4.3.0.
 - `renv::install()` for installing any new packages
 - `renv::snapshot()` for saving any new packages to the lock file
 - `usethis::use_version()` for incrementing versions
+- `microbenchmark::microbenchmark()` for benchmarking
 
 ## Contributing
 

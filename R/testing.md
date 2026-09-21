@@ -1,0 +1,33 @@
+- Term
+  - Private
+  - Public
+    - search_term: character(1) - the search term
+    - replacements: list - the replacements
+      - key: header name
+      - value: header link
+- Terms
+  - Private
+    - terms: list of Term
+      - key: search_term
+      - value: replacements
+  - Public
+    - addTerm(Term)
+      - Adds ReplaceTerm to terms if the key doesn't exist
+    - removeTerm(Term)
+      - Adds ReplaceTerm from the list if the key exists, or nothing if it doesn't
+    - modifyTerm(Term)
+      - Replaces an existing term if it exists (or adds it if it doesn't)
+    - viewTerms()
+      - Returns the terms as a list
+- Template
+  - Private
+    - template: character - The template being processed
+  - Public
+    - process(Terms)
+      - processes and returns the processes template
+    - print()
+      - prints the template
+    - save(path)
+      - Saves the template to a file
+
+205 research classes

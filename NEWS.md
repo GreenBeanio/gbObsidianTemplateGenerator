@@ -1,5 +1,9 @@
 # gbObsidianTemplateGenerator 1.0.0 (2026-09-20)
 
-### Features
+## Added
 
-- 
+## Changed
+
+## Fixed
+
+## Removed
