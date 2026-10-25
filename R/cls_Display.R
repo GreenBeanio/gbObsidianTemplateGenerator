@@ -11,7 +11,7 @@ DisplayTerm <- R6::R6Class(
       if(missing(value)) {
         return(private$.new_lines)
       }
-      checkmate::assertNumeric(value, len = 1)
+      checkmate::assertNumeric(value, len = 1, lower = 0, names = "unnamed")
       private$.new_lines <- as.integer(value)
     }
   ),
@@ -23,11 +23,8 @@ DisplayTerm <- R6::R6Class(
     makeString = \() {
       #' Makes a string
       stop("Inherited DisplayTerm must implement makeString")
-    }
-    newLines <- \() {
-      if(self$new_lines < 1) {
-        return("")
-      }
+    },
+    newLines = \() {
       return(paste(rep("\n", self$new_lines), collapse = ""))
     }
   )
@@ -56,6 +53,30 @@ DisplayString <- R6::R6Class(
   )
 )
 
+DisplayNone <- R6::R6Class(
+  #' A class to display nothing
+  "DisplayNone",
+  inherit = DisplayTerm,
+  active = list(
+    contents = \(value) {
+      #' A vector of replacement strings
+      if(missing(value)) {
+        return(private$.contents)
+      }
+      private$.contents <- value
+    }
+  ),
+  public = list(
+    initialize = \() {
+      super$initialize(list(), 0)
+    },
+    makeString = \() {
+      #' Generates the string to insert
+      return("")
+    }
+  )
+)
+
 DisplayTerms <- R6::R6Class(
   #' Base class for displaying other DisplayTerms
   "DisplayTerm",
@@ -66,13 +87,13 @@ DisplayTerms <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
-      checkmate::assertList(value, types = DisplayTerm,
+      checkmate::assertList(value, types = "DisplayTerm",
                             min.len = 1, names = "unnamed")
       private$.contents <- value
     }
   ),
   public = list(
-    makeString = \(clp) {
+    makeString = \() {
       #' Makes a string
       out_list <- c()
       for(cur_ind in seq_along(self$contents)) {
@@ -82,7 +103,7 @@ DisplayTerms <- R6::R6Class(
         }
         out_list[cur_ind] <- cur
       }
-      return(paste(out, collapse = ""))
+      return(paste(out_list, collapse = ""))
     }
   )
 )
@@ -93,8 +114,9 @@ DisplayHeader <- R6::R6Class(
   inherit = DisplayTerms,
   private = list(
     .header = character(),
-    .base_level = integer(1),
-    .link = character()
+    .header_level = integer(1),
+    .link = character(),
+    .trailing_mode = character()
   ),
   active = list(
     header = \(value) {
@@ -105,13 +127,14 @@ DisplayHeader <- R6::R6Class(
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
       private$.header <- value
     },
-    base_level = \(value) {
+    header_level = \(value) {
       #' An integer for the base level of the replacement header
       if(missing(value)) {
-        return(private$.base_level)
+        return(private$.header_level)
       }
-      checkmate::assertNumeric(value, len = 1, names = "unnamed")
-      private$.base_level <- as.integer(value)
+      checkmate::assertNumeric(value, len = 1, names = "unnamed",
+                               lower = 1, upper = 6)
+      private$.header_level <- as.integer(value)
     },
     link = \(value) {
       #' A link for the header
@@ -120,14 +143,44 @@ DisplayHeader <- R6::R6Class(
       }
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
       private$.link <- value #|> htmltools::urlEncodePath()
+    },
+    trailing_mode = \(value) {
+      #' How to handle trailing
+      if(missing(value)) {
+        return(private$.trailing_mode)
+      }
+      value <- tolower(value)
+      checkmate::assertCharacter(value, len = 1, names = "unnamed")
+      checkmate::assertSubset(value, choices = c("auto", "trail",
+                                                          "none"))
+      private$.trailing_mode <- value
     }
   ),
   public = list(
-    initialize = \(contents, header, base_level, link = "", new_lines = 2) {
+    initialize = \(contents, header, header_level, link = "",
+                   trailing_mode = "auto", new_lines = 2) {
       super$initialize(contents, new_lines)
       self$header <- header
-      self$base_level <- base_level
+      self$header_level <- header_level
       self$link <- link
+      self$trailing_mode <- trailing_mode
+    },
+    makeString = \() {
+      if(self$link != "") {
+        header <- glue::glue("[{self$header}]({self$link})")
+      } else {
+        header <- self$header
+      }
+      header <-
+        paste0(
+          paste(rep('#',self$header_level), collapse = ""), " ", header)
+      contents <- super$makeString()
+      if(self$trailing_mode == "trail" ||
+         (self$trailing_mode == "auto" && contents != "")) {
+        header <-
+          paste0(header, self$newLines(), contents)
+      }
+      return(header)
     }
   )
 )

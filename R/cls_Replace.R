@@ -43,7 +43,7 @@ ReplaceString <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
-      checkmate::assertList(value, types = DisplayString, min.len = 1, names = "unnamed")
+      checkmate::assertList(value, types = "DisplayString", min.len = 1, names = "unnamed")
       private$.contents <- value
     }
   ),
@@ -65,7 +65,7 @@ ReplaceHeader <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
-      checkmate::assertList(value, types = DisplayHeader, min.len = 1, names = "unnamed")
+      checkmate::assertList(value, types = "DisplayHeader", min.len = 1, names = "unnamed")
       private$.contents <- value
     }
   ),
