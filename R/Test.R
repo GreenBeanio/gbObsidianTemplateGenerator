@@ -76,7 +76,7 @@ TermString <- R6::R6Class(
   ),
   public = list(
     initialize = \(search_term, replacements, new_lines = 0) {
-      super$intialize(search_term, replacements, new_lines)
+      super$initialize(search_term, replacements, new_lines)
     },
     generateReplacement = \() {
       #' Generates the replacement string to insert
@@ -137,48 +137,56 @@ TermHeader <- R6::R6Class(
   )
 )
 
-# author <- TermString$new("author", c("Monday.md",
-#                                      "Tuesday.md",
-#                                      "Wednesday.md"))
-# # author$search_term
-# # author$replacements
-# # author$getTerm()
-# author$generateReplacement()
-
-days <- TermHeader$new("days",
-                       list("Monday" = "x",
-                            "Tuesday" = "y",
-                            "Wednesday" = "z"),
-                       2)
-# days$search_term
-# days$replacements
-# days$base_level
-# days$getTerm()
-days$generateReplacement()
-
-
-
-
-
+TermMatcher <- R6::R6Class(
+  #' A class to hold the characters to mark replacements
+  "TermMatcher",
+  private = list(
+    .matchers = list()
+  ),
+  public = list(
+    initialize = \(left = "{", right = "}") {
+      checkmate::assertCharacter(left, min.len = 1, names = "unnamed")
+      checkmate::assertCharacter(right, min.len = 1, names = "unnamed")
+      private$.matchers <- list(left, right)
+    },
+    left = \() {
+      # Gets the left boundary
+      return(private$.matchers[[1]])
+    },
+    right = \() {
+      # Gets the right boundary
+      return(private$.matchers[[2]])
+    }#,
+    # getMatcher = \() {
+    #   return(c(private$.matchers[[1]], private$.matchers[[2]]))
+    # }
+  )
+)
 
 Terms <- R6::R6Class(
   #' A class to hold multiple Term instances
   "Terms",
   private = list(
-    terms = list()
+    .terms = list(),
+    .matcher = TermMatcher
   ),
   public = list(
-    #initialize = \() {},
+    initialize = \(matcher) {
+      if(missing(matcher)) {
+        matcher <- TermMatcher$new()
+      }
+      private$.matcher <- matcher
+    },
     addTerm = \(term) {
       #' Adds a Term to the class
       #' This will NOT overwrite an existing term
       checkmate::assertClass(term, "Term")
       c_name <- names(term$getTerm())
-      if(!is.null(names(private$terms)) && c_name %in% names(private$terms)) {
+      if(!is.null(names(private$.terms)) && c_name %in% names(private$.terms)) {
         warning(glue::glue("{c_name} already in terms"))
         return(invisible(self))
       }
-      private$terms[[c_name]] <- term
+      private$.terms[[c_name]] <- term
       return(invisible(self))
     },
     removeTerm = \(term) {
@@ -186,7 +194,7 @@ Terms <- R6::R6Class(
       #' This does NOT check if the Term is in the class
       checkmate::assertClass(term, "Term")
       c_name <- names(term$getTerm())
-      private$terms[[c_name]] <- NULL
+      private$.terms[[c_name]] <- NULL
       return(invisible(self))
     },
     modifyTerm = \(term) {
@@ -194,41 +202,42 @@ Terms <- R6::R6Class(
       #' This will add the Term if it doesn't exist
       checkmate::assertClass(term, "Term")
       c_name <- names(term$getTerm())
-      private$terms[[c_name]] <- term
+      private$.terms[[c_name]] <- term
       return(invisible(self))
     },
-    viewTerms = \() {
-      #' Prints the Term keywords in the class
-      print(names(private$terms))
-    },
-    getTerms = \() {
-      #' Gets the combined Term objects in the class
+    termsList = \() {
+      #' Combined Term object replacements as a list
       cur <- list()
-      for(term in private$terms) {
+      for(term in private$.terms) {
         cur <- append(cur, term$getTerm())
       }
       return(cur)
+    },
+    getTerms = \() {
+      #' Gets the term objects
+      return(private$.terms)
+    },
+    getMatcher = \() {
+      #' Gets the matcher
+      return(private$.matcher)
     }
   )
 )
 
-author <- Term$new("author", list("Monday" = "Monday.md",
-                                  "Tuesday" = "Tuesday.md",
-                                  "Wednesday" = "Wednesday.md"))
-author$getTerm()
-date <- Term$new("date", list("date" = lubridate::ymd("2026-10-25")))
-date$getTerm()
-
+author <- TermString$new("author", c("Monday.md",
+                                     "Tuesday.md",
+                                     "Wednesday.md"))
+days <- TermHeader$new("days",
+                       list("Monday" = "x",
+                            "Tuesday" = "y",
+                            "Wednesday" = "z"),
+                       2)
+# days$generateReplacement()
 y <- Terms$new()
 y$addTerm(author)
-y$addTerm(date)
-# y$viewTerms()
-y$removeTerm(author)
-# y$viewTerms()
-date <- Term$new("date", list("date" = lubridate::ymd("2026-10-26")))
-y$modifyTerm(date)
-y$modifyTerm(author)
-y$viewTerms()
+y$addTerm(days)
+y$termsList()
 y$getTerms()
+y$getMatcher()
 
-readr::read_file(here::here("inst", "extdata", "Week.md"))
+#readr::read_file(here::here("inst", "extdata", "Week.md"))
