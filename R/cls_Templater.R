@@ -1,5 +1,5 @@
 Templater <- R6::R6Class(
-  #' A class to hold the replacers
+  #' A class to hold the replacer
   "Templater",
   private = list(
     .replacer = Replacer,
@@ -7,7 +7,7 @@ Templater <- R6::R6Class(
     .processed = FALSE
   ),
   active = list(
-    replacers = \(value) {
+    replacer = \(value) {
       #' A Replacer instance
       if(missing(value)) {
         return(private$.replacer)
@@ -26,18 +26,18 @@ Templater <- R6::R6Class(
     }
   ),
   public = list(
-    initialize = \(replacers, template) {
-      self$replacers <- replacers
+    initialize = \(replacer, template) {
+      self$replacer <- replacer
       self$template <- template
     },
     process = \() {
       #' Processes the template
       if(!private$.processed) {
-        replacers <- self$replacers$makeReplacement()
-        for(ind in seq_along(replacers)) {
+        replacer <- self$replacer$makeReplacement()
+        for(ind in seq_along(replacer)) {
           private$.template <- stringr::str_replace_all(private$.template,
-                                                        names(replacers)[ind],
-                                                        replacers[[ind]])
+                                                        names(replacer)[ind],
+                                                        replacer[[ind]])
         }
       }
       return(private$.template)

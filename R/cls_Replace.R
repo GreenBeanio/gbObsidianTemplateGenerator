@@ -66,6 +66,9 @@ ReplaceTerm <- R6::R6Class(
   ),
   public = list(
     initialize = \(search_term, contents, matcher) {
+      if(missing(contents)) {
+        contents <- DisplayNone$new()
+      }
       super$initialize(contents)
       self$search_term <- search_term
       if(missing(matcher)) {
@@ -76,7 +79,7 @@ ReplaceTerm <- R6::R6Class(
     },
     makeReplacement = \() {
       #' Makes a replacement string to insert into the MD document
-      return(self$contents$makeString())
+      return(self$contents$makeText())
     },
     makeSearch = \() {
       #' Gets the regex match
@@ -97,8 +100,11 @@ Replacer <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
+      if(!is.list(value)) {
+        value <- list(value)
+      }
       checkmate::assertList(value, types = "ReplaceTerm",
-                            min.len = 1, names = "unnamed")
+                            min.len = 0, names = "unnamed")
       private$.contents <- value
     }
   ),
@@ -106,6 +112,9 @@ Replacer <- R6::R6Class(
     initialize = \(contents) {
       # This used to extend the Term, but I don't want it to since it's
       # really a container not a term
+      if(missing(contents)) {
+        contents <- list()
+      }
       self$contents <- contents
     },
     addTerms = \(terms) {

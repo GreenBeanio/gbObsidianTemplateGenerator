@@ -42,9 +42,9 @@ DisplayTerm <- R6::R6Class(
       self$trailing_mode <- trailing_mode
       self$separator <- separator
     },
-    makeString = \() {
+    makeText = \() {
       #' Makes a string
-      stop("Inherited DisplayTerm must implement makeString")
+      stop("Inherited DisplayTerm must implement makeText")
     },
     getSeparators = \() {
       #' Gets the string of new lines to use
@@ -93,7 +93,7 @@ DisplayString <- R6::R6Class(
                        trailing_mode = trailing_mode,
                        separator = separator)
     },
-    makeString = \() {
+    makeText = \() {
       #' Generates the string to insert
       body <- paste(self$contents, collapse = self$getSeparators())
       return(self$trailing(body))
@@ -127,7 +127,7 @@ DisplayNone <- R6::R6Class(
                        trailing_mode = FALSE,
                        separator = "")
     },
-    makeString = \() {
+    makeText = \() {
       #' Generates the string to insert
       return(self$trailing(self$contents))
     },
@@ -167,11 +167,11 @@ DisplayTerms <- R6::R6Class(
                        trailing_mode = trailing_mode,
                        separator = separator)
     },
-    makeString = \() {
+    makeText = \() {
       #' Makes a string
       out_list <- c()
       for(cur_ind in seq_along(self$contents)) {
-        cur <- self$contents[[cur_ind]]$makeString()
+        cur <- self$contents[[cur_ind]]$makeText()
         if(cur_ind != length(self$contents)) {
           paste0(cur, self$getSeparators())
         }
@@ -243,7 +243,7 @@ DisplayHeader <- R6::R6Class(
       self$level <- level
       self$link <- link
     },
-    makeString = \() {
+    makeText = \() {
       if(self$link != "") {
         header <- glue::glue("[{self$header}]({self$link})")
       } else {
@@ -255,7 +255,7 @@ DisplayHeader <- R6::R6Class(
       if(length(self$contents) == 0) {
         return(self$trailing(header))
       }
-      contents <- super$makeString()
+      contents <- super$makeText()
       if(contents != "") {
         header <-
           paste0(header, self$getSeparators(), contents)
