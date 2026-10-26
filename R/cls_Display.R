@@ -198,7 +198,7 @@ DisplayHeader <- R6::R6Class(
   inherit = DisplayTerms,
   private = list(
     .header = character(),
-    .header_level = integer(1),
+    .level = integer(1),
     .link = character()
   ),
   active = list(
@@ -210,14 +210,14 @@ DisplayHeader <- R6::R6Class(
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
       private$.header <- value
     },
-    header_level = \(value) {
+    level = \(value) {
       #' An integer for the base level of the replacement header
       if(missing(value)) {
-        return(private$.header_level)
+        return(private$.level)
       }
       checkmate::assertNumeric(value, len = 1, names = "unnamed",
                                lower = 1, upper = 6)
-      private$.header_level <- as.integer(value)
+      private$.level <- as.integer(value)
     },
     link = \(value) {
       #' A link for the header
@@ -229,7 +229,7 @@ DisplayHeader <- R6::R6Class(
     }
   ),
   public = list(
-    initialize = \(header, header_level, contents, link = "",
+    initialize = \(header, level, contents, link = "",
                    trailing_mode = TRUE, separators = 2,
                    separator = "\n") {
       if(missing(contents)) {
@@ -240,7 +240,7 @@ DisplayHeader <- R6::R6Class(
                        trailing_mode = trailing_mode,
                        separator = separator)
       self$header <- header
-      self$header_level <- header_level
+      self$level <- level
       self$link <- link
     },
     makeString = \() {
@@ -251,7 +251,10 @@ DisplayHeader <- R6::R6Class(
       }
       header <-
         paste0(
-          paste(rep('#',self$header_level), collapse = ""), " ", header)
+          paste(rep('#',self$level), collapse = ""), " ", header)
+      if(length(self$contents) == 0) {
+        return(self$trailing(header))
+      }
       contents <- super$makeString()
       if(contents != "") {
         header <-
@@ -261,4 +264,3 @@ DisplayHeader <- R6::R6Class(
     }
   )
 )
-
