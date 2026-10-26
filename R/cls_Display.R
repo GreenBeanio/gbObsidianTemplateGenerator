@@ -4,7 +4,7 @@ DisplayTerm <- R6::R6Class(
   inherit = Term,
   private = list(
     .new_lines = integer(),
-    .trailing_mode = character()
+    .trailing_mode = logical()
   ),
   active = list(
     new_lines = \(value) {
@@ -20,15 +20,12 @@ DisplayTerm <- R6::R6Class(
       if(missing(value)) {
         return(private$.trailing_mode)
       }
-      value <- tolower(value)
-      checkmate::assertCharacter(value, len = 1, names = "unnamed")
-      checkmate::assertSubset(value, choices = c("auto", "trail",
-                                                 "none"))
+      checkmate::assertLogical(value, len = 1, names = "unnamed")
       private$.trailing_mode <- value
     }
   ),
   public = list(
-    initialize = \(contents, new_lines = 2, trailing_mode = "auto") {
+    initialize = \(contents, new_lines = 2, trailing_mode = TRUE) {
       super$initialize(contents)
       self$new_lines <- new_lines
       self$trailing_mode <- trailing_mode
@@ -43,11 +40,8 @@ DisplayTerm <- R6::R6Class(
     },
     trailing = \(content) {
       #' Gets the content after trailing logic
-      if(self$trailing_mode == "trail" ||
-         (self$trailing_mode == "auto" && content != "")) {
-        return(
-          paste0(content, self$newLines())
-        )
+      if(private$.trailing_mode) {
+        return(paste0(content, self$newLines()))
       }
       return(content)
     }
@@ -72,7 +66,8 @@ DisplayString <- R6::R6Class(
   public = list(
     makeString = \() {
       #' Generates the string to insert
-      return(paste(self$contents, collapse = newLines(self$new_lines)))
+      body <- paste(self$contents, collapse = self$newLines())
+      return(self$trailing(body))
     }
   )
 )
@@ -94,11 +89,11 @@ DisplayNone <- R6::R6Class(
     initialize = \() {
       super$initialize(contents = list(),
                        new_lines = 0,
-                       trailing_mode = "auto")
+                       trailing_mode = FALSE)
     },
     makeString = \() {
       #' Generates the string to insert
-      return("")
+      return(self$trailing(""))
     }
   )
 )
@@ -125,7 +120,7 @@ DisplayTerms <- R6::R6Class(
       for(cur_ind in seq_along(self$contents)) {
         cur <- self$contents[[cur_ind]]$makeString()
         if(cur_ind != length(self$contents)) {
-          paste0(cur, self$newLines(self$new_lines))
+          paste0(cur, self$newLines())
         }
         out_list[cur_ind] <- cur
       }
@@ -172,7 +167,7 @@ DisplayHeader <- R6::R6Class(
   ),
   public = list(
     initialize = \(contents, header, header_level, link = "",
-                   trailing_mode = "auto", new_lines = 2) {
+                   trailing_mode = FALSE, new_lines = 2) {
       super$initialize(contents = contents,
                        new_lines = new_lines,
                        trailing_mode = trailing_mode)
