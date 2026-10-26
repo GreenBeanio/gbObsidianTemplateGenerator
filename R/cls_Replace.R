@@ -97,7 +97,8 @@ Replacer <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
-      checkmate::assertList(value, types = "ReplaceTerm", min.len = 1, names = "unnamed")
+      checkmate::assertList(value, types = "ReplaceTerm",
+                            min.len = 1, names = "unnamed")
       private$.contents <- value
     }
   ),
@@ -106,6 +107,14 @@ Replacer <- R6::R6Class(
       # This used to extend the Term, but I don't want it to since it's
       # really a container not a term
       self$contents <- contents
+    },
+    addTerms = \(terms) {
+      #' Adds a replacement terms to the contents
+      checkmate::assertList(terms, types = "ReplaceTerm",
+                            min.len = 1, names = "unnamed")
+      # Not checking for duplicate terms or anything right now
+      private$.contents <- c(private$.contents, terms)
+      return(invisible(self))
     },
     makeReplacement = \() {
       #' Makes a list of the search term and the replacement string

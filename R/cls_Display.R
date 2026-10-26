@@ -3,17 +3,18 @@ DisplayTerm <- R6::R6Class(
   "DisplayTerm",
   inherit = Term,
   private = list(
-    .new_lines = integer(),
-    .trailing_mode = logical()
+    .separators = integer(),
+    .trailing_mode = logical(),
+    .separator = character()
   ),
   active = list(
-    new_lines = \(value) {
-      #' The number of new lines to use when joining text
+    separators = \(value) {
+      #' The number of separators to use when joining text
       if(missing(value)) {
-        return(private$.new_lines)
+        return(private$.separators)
       }
       checkmate::assertNumeric(value, len = 1, lower = 0, names = "unnamed")
-      private$.new_lines <- as.integer(value)
+      private$.separators <- as.integer(value)
     },
     trailing_mode = \(value) {
       #' How to handle trailing
@@ -22,28 +23,43 @@ DisplayTerm <- R6::R6Class(
       }
       checkmate::assertLogical(value, len = 1, names = "unnamed")
       private$.trailing_mode <- value
+    },
+    separator = \(value) {
+      #' Separator character
+      if(missing(value)) {
+        return(private$.separator)
+      }
+      checkmate::assertCharacter(value, min.len = 0,
+                                 max.len = 1, names = "unnamed")
+      private$.separator <- value
     }
   ),
   public = list(
-    initialize = \(contents, new_lines = 2, trailing_mode = TRUE) {
+    initialize = \(contents, separators = 2,
+                   trailing_mode = TRUE, separator = "\n") {
       super$initialize(contents)
-      self$new_lines <- new_lines
+      self$separators <- separators
       self$trailing_mode <- trailing_mode
+      self$separator <- separator
     },
     makeString = \() {
       #' Makes a string
       stop("Inherited DisplayTerm must implement makeString")
     },
-    newLines = \() {
+    getSeparators = \() {
       #' Gets the string of new lines to use
-      return(paste(rep("\n", self$new_lines), collapse = ""))
+      return(paste(rep(self$separator, self$separators), collapse = ""))
     },
     trailing = \(content) {
       #' Gets the content after trailing logic
       if(private$.trailing_mode) {
-        return(paste0(content, self$newLines()))
+        return(paste0(content, self$getSeparators()))
       }
       return(content)
+    },
+    addTerms = \(terms) {
+      #' Adds a terms terms to the contents
+      stop("Inherited DisplayTerm class must implement addTerms")
     }
   )
 )
@@ -58,16 +74,38 @@ DisplayString <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
-      checkmate::assertVector(value, min.len = 1, names = "unnamed")
+      if(!is.vector(value)) {
+        value <- c(value)
+      }
+      checkmate::assertVector(value, min.len = 0, names = "unnamed")
       checkmate::assertCharacter(value)
       private$.contents <- value
     }
   ),
   public = list(
+    initialize = \(contents, separators = 0,
+                   trailing_mode = FALSE, separator = "\n") {
+      if(missing(contents)) {
+        contents <- character()
+      }
+      super$initialize(contents = contents,
+                       separators = separators,
+                       trailing_mode = trailing_mode,
+                       separator = separator)
+    },
     makeString = \() {
       #' Generates the string to insert
-      body <- paste(self$contents, collapse = self$newLines())
+      body <- paste(self$contents, collapse = self$getSeparators())
       return(self$trailing(body))
+    },
+    addTerms = \(terms) {
+      #' Adds a terms terms to the contents
+      if(!is.vector(terms)) {
+        terms <- c(terms)
+      }
+      checkmate::assertVector(value, min.len = 1, names = "unnamed")
+      self$contents <- c(private$.contents, terms)
+      return(invisible(self))
     }
   )
 )
@@ -78,29 +116,31 @@ DisplayNone <- R6::R6Class(
   inherit = DisplayTerm,
   active = list(
     contents = \(value) {
-      #' A vector of replacement strings
-      if(missing(value)) {
-        return(private$.contents)
-      }
-      private$.contents <- value
+      #' Nothing!
+      private$.contents <- ""
     }
   ),
   public = list(
     initialize = \() {
-      super$initialize(contents = list(),
-                       new_lines = 0,
-                       trailing_mode = FALSE)
+      super$initialize(contents = NULL,
+                       separators = 0,
+                       trailing_mode = FALSE,
+                       separator = "")
     },
     makeString = \() {
       #' Generates the string to insert
-      return(self$trailing(""))
+      return(self$trailing(self$contents))
+    },
+    addTerms = \(terms) {
+      #Nothing!
+      return(invisible(self))
     }
   )
 )
 
 DisplayTerms <- R6::R6Class(
   #' Base class for displaying other DisplayTerms
-  "DisplayTerm",
+  "DisplayTerms",
   inherit = DisplayTerm,
   active = list(
     contents = \(value) {
@@ -108,23 +148,46 @@ DisplayTerms <- R6::R6Class(
       if(missing(value)) {
         return(private$.contents)
       }
+      if(!is.list(value)) {
+        value <- list(value)
+      }
       checkmate::assertList(value, types = "DisplayTerm",
-                            min.len = 1, names = "unnamed")
+                            min.len = 0, names = "unnamed")
       private$.contents <- value
     }
   ),
   public = list(
+    initialize = \(contents, separators = 2,
+                   trailing_mode = TRUE, separator = "\n") {
+      if(missing(contents)) {
+        contents <- list()
+      }
+      super$initialize(contents = contents,
+                       separators = separators,
+                       trailing_mode = trailing_mode,
+                       separator = separator)
+    },
     makeString = \() {
       #' Makes a string
       out_list <- c()
       for(cur_ind in seq_along(self$contents)) {
         cur <- self$contents[[cur_ind]]$makeString()
         if(cur_ind != length(self$contents)) {
-          paste0(cur, self$newLines())
+          paste0(cur, self$getSeparators())
         }
         out_list[cur_ind] <- cur
       }
-      return(paste(out_list, collapse = ""))
+      return(self$trailing(paste(out_list, collapse = "")))
+    },
+    addTerms = \(terms) {
+      #' Adds a terms terms to the contents
+      if(!is.list(terms)) {
+        terms <- list(terms)
+      }
+      checkmate::assertList(terms, types = "DisplayTerm",
+                            min.len = 1, names = "unnamed")
+      self$contents <- c(private$.contents, terms)
+      return(invisible(self))
     }
   )
 )
@@ -166,11 +229,16 @@ DisplayHeader <- R6::R6Class(
     }
   ),
   public = list(
-    initialize = \(contents, header, header_level, link = "",
-                   trailing_mode = FALSE, new_lines = 2) {
+    initialize = \(header, header_level, contents, link = "",
+                   trailing_mode = TRUE, separators = 2,
+                   separator = "\n") {
+      if(missing(contents)) {
+        contents <- list()
+      }
       super$initialize(contents = contents,
-                       new_lines = new_lines,
-                       trailing_mode = trailing_mode)
+                       separators = separators,
+                       trailing_mode = trailing_mode,
+                       separator = separator)
       self$header <- header
       self$header_level <- header_level
       self$link <- link
@@ -187,10 +255,10 @@ DisplayHeader <- R6::R6Class(
       contents <- super$makeString()
       if(contents != "") {
         header <-
-          paste0(header, self$newLines(), contents)
+          paste0(header, self$getSeparators(), contents)
       }
-      header <- self$trailing(header)
       return(header)
     }
   )
 )
+

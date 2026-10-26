@@ -2,7 +2,7 @@ Templater <- R6::R6Class(
   #' A class to hold the replacers
   "Templater",
   private = list(
-    .replacers = Replacer,
+    .replacer = Replacer,
     .template = character(),
     .processed = FALSE
   ),
@@ -10,10 +10,10 @@ Templater <- R6::R6Class(
     replacers = \(value) {
       #' A Replacer instance
       if(missing(value)) {
-        return(private$.replacers)
+        return(private$.replacer)
       }
       checkmate::assertClass(value, classes = "Replacer")
-      private$.replacers <- value
+      private$.replacer <- value
     },
     template = \(value) {
       #' The template (a character object)
