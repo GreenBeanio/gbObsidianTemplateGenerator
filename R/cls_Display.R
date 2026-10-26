@@ -3,7 +3,8 @@ DisplayTerm <- R6::R6Class(
   "DisplayTerm",
   inherit = Term,
   private = list(
-    .new_lines = integer()
+    .new_lines = integer(),
+    .trailing_mode = character()
   ),
   active = list(
     new_lines = \(value) {
@@ -13,19 +14,42 @@ DisplayTerm <- R6::R6Class(
       }
       checkmate::assertNumeric(value, len = 1, lower = 0, names = "unnamed")
       private$.new_lines <- as.integer(value)
+    },
+    trailing_mode = \(value) {
+      #' How to handle trailing
+      if(missing(value)) {
+        return(private$.trailing_mode)
+      }
+      value <- tolower(value)
+      checkmate::assertCharacter(value, len = 1, names = "unnamed")
+      checkmate::assertSubset(value, choices = c("auto", "trail",
+                                                 "none"))
+      private$.trailing_mode <- value
     }
   ),
   public = list(
-    initialize = \(contents, new_lines) {
+    initialize = \(contents, new_lines = 2, trailing_mode = "auto") {
       super$initialize(contents)
       self$new_lines <- new_lines
+      self$trailing_mode <- trailing_mode
     },
     makeString = \() {
       #' Makes a string
       stop("Inherited DisplayTerm must implement makeString")
     },
     newLines = \() {
+      #' Gets the string of new lines to use
       return(paste(rep("\n", self$new_lines), collapse = ""))
+    },
+    trailing = \(content) {
+      #' Gets the content after trailing logic
+      if(self$trailing_mode == "trail" ||
+         (self$trailing_mode == "auto" && content != "")) {
+        return(
+          paste0(content, self$newLines())
+        )
+      }
+      return(content)
     }
   )
 )
@@ -68,7 +92,9 @@ DisplayNone <- R6::R6Class(
   ),
   public = list(
     initialize = \() {
-      super$initialize(list(), 0)
+      super$initialize(contents = list(),
+                       new_lines = 0,
+                       trailing_mode = "auto")
     },
     makeString = \() {
       #' Generates the string to insert
@@ -115,8 +141,7 @@ DisplayHeader <- R6::R6Class(
   private = list(
     .header = character(),
     .header_level = integer(1),
-    .link = character(),
-    .trailing_mode = character()
+    .link = character()
   ),
   active = list(
     header = \(value) {
@@ -143,27 +168,17 @@ DisplayHeader <- R6::R6Class(
       }
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
       private$.link <- value #|> htmltools::urlEncodePath()
-    },
-    trailing_mode = \(value) {
-      #' How to handle trailing
-      if(missing(value)) {
-        return(private$.trailing_mode)
-      }
-      value <- tolower(value)
-      checkmate::assertCharacter(value, len = 1, names = "unnamed")
-      checkmate::assertSubset(value, choices = c("auto", "trail",
-                                                          "none"))
-      private$.trailing_mode <- value
     }
   ),
   public = list(
     initialize = \(contents, header, header_level, link = "",
                    trailing_mode = "auto", new_lines = 2) {
-      super$initialize(contents, new_lines)
+      super$initialize(contents = contents,
+                       new_lines = new_lines,
+                       trailing_mode = trailing_mode)
       self$header <- header
       self$header_level <- header_level
       self$link <- link
-      self$trailing_mode <- trailing_mode
     },
     makeString = \() {
       if(self$link != "") {
@@ -175,11 +190,11 @@ DisplayHeader <- R6::R6Class(
         paste0(
           paste(rep('#',self$header_level), collapse = ""), " ", header)
       contents <- super$makeString()
-      if(self$trailing_mode == "trail" ||
-         (self$trailing_mode == "auto" && contents != "")) {
+      if(contents != "") {
         header <-
           paste0(header, self$newLines(), contents)
       }
+      header <- self$trailing(header)
       return(header)
     }
   )
