@@ -6,7 +6,7 @@ test_that("createYear", {
                             unique_timestamp = test_time,
                             author = "Test User")
   test_result <- readr::read_file(output_path[[1]])
-  loaded_file <- readRDS(testthat::test_path("testdata", "create_year.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "create_year.rds"))
   testthat::expect_equal(test_result, loaded_file)
   unlink(temp_dir, recursive = TRUE, force = TRUE)
 })

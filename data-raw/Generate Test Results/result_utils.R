@@ -7,7 +7,7 @@ obsidian_metadata_replace <- obsidianMetadataReplace(
   unique_timestamp = strftime(test_time, "%Y%m%d%H%M%S", tz = c_tz),
   author = "Test User")
 saveRDS(obsidian_metadata_replace,
-        file = testthat::test_path("testdata", "obsidian_metadata_replace.rda"))
+        file = testthat::test_path("testdata", "obsidian_metadata_replace.rds"))
 
 make_obsidian_file_path <- makeObsidianFilePath(
   list_of_paths = list(
@@ -16,7 +16,7 @@ make_obsidian_file_path <- makeObsidianFilePath(
     `Quarter 3` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_3 Quarterly Note u-00000000000000.md",
     `Quarter 4` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_4 Quarterly Note u-00000000000000.md"))
 saveRDS(make_obsidian_file_path,
-        file = testthat::test_path("testdata", "make_obsidian_file_path.rda"))
+        file = testthat::test_path("testdata", "make_obsidian_file_path.rds"))
 
 replace_header_links_group <- replaceHeaderLinksGroup(
   header_values = list(
@@ -29,7 +29,7 @@ replace_header_links_group <- replaceHeaderLinksGroup(
   template = readr::read_file(here::here("inst", "extdata",
                                          "Templates", "Month.md")))
 saveRDS(replace_header_links_group,
-        file = testthat::test_path("testdata", "replace_header_links_group.rda"))
+        file = testthat::test_path("testdata", "replace_header_links_group.rds"))
 
 replace_header_links_single <- replaceHeaderLinksSingle(
   header_values = list(
@@ -41,7 +41,7 @@ replace_header_links_single <- replaceHeaderLinksSingle(
   template = readr::read_file(here::here("inst", "extdata",
                                          "Templates", "Year.md")))
 saveRDS(replace_header_links_single,
-        file = testthat::test_path("testdata", "replace_header_links_single.rda"))
+        file = testthat::test_path("testdata", "replace_header_links_single.rds"))
 
 replace_header_links <- replaceHeaderLinks(
   header_values = list(
@@ -55,4 +55,4 @@ replace_header_links <- replaceHeaderLinks(
   template = readr::read_file(here::here("inst", "extdata",
                                          "Templates", "Month.md")))
 saveRDS(replace_header_links,
-        file = testthat::test_path("testdata", "replace_header_links.rda"))
+        file = testthat::test_path("testdata", "replace_header_links.rds"))

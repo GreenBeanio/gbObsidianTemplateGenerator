@@ -7,5 +7,5 @@ output_path <- createYear(input_date = test_time,
 loaded_file <- readr::read_file(output_path[[1]])
 loaded_file <- loaded_file |> stringr::str_replace_all("/r", "")
 saveRDS(loaded_file,
-        file = testthat::test_path("testdata", "create_year.rda"))
+        file = testthat::test_path("testdata", "create_year.rds"))
 unlink(temp_dir, recursive = TRUE, force = TRUE)

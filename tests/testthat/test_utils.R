@@ -8,7 +8,7 @@ test_that("obsidianMetadataReplace", {
     creation_date = strftime(test_time, "%Y-%m-%d", tz = c_tz),
     unique_timestamp = strftime(test_time, "%Y%m%d%H%M%S", tz = c_tz),
     author = "Test User")
-  loaded_file <- readRDS(testthat::test_path("testdata", "obsidian_metadata_replace.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "obsidian_metadata_replace.rds"))
   testthat::expect_equal(obsidian_metadata_replace, loaded_file)
 })
 
@@ -19,7 +19,7 @@ test_that("makeObsidianFilePath", {
       `Quarter 2` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_2 Quarterly Note u-00000000000000.md",
       `Quarter 3` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_3 Quarterly Note u-00000000000000.md",
       `Quarter 4` = "/home/test_user/Notes/0_Planning Notes/02_Quarterly Notes/2026_4 Quarterly Note u-00000000000000.md"))
-  loaded_file <- readRDS(testthat::test_path("testdata", "make_obsidian_file_path.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "make_obsidian_file_path.rds"))
   testthat::expect_equal(make_obsidian_file_path, loaded_file)
 })
 
@@ -35,7 +35,7 @@ test_that("replaceHeaderLinksGroup", {
     template = readr::read_file(system.file("extdata",
                                            "Templates", "Month.md",
                                            package = "gbObsidianTemplateGenerator")))
-  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_group.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_group.rds"))
   testthat::expect_equal(replace_header_links_group, loaded_file)
 })
 
@@ -50,7 +50,7 @@ test_that("replaceHeaderLinksSingle", {
     template = readr::read_file(system.file("extdata",
                                            "Templates", "Year.md",
                                            package = "gbObsidianTemplateGenerator")))
-  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_single.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links_single.rds"))
   testthat::expect_equal(replace_header_links_single, loaded_file)
 })
 
@@ -67,6 +67,6 @@ test_that("replaceHeaderLinks", {
     template = readr::read_file(system.file("extdata",
                                            "Templates", "Month.md",
                                            package = "gbObsidianTemplateGenerator")))
-  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links.rda"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "replace_header_links.rds"))
   testthat::expect_equal(replace_header_links, loaded_file)
 })
