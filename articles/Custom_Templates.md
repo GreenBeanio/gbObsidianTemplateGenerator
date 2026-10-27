@@ -15,11 +15,11 @@ The system relies on 3 components:
 
 There are several classes that make up the terms section:
 
-- (DisplayTerm)\[#DisplayTerm\]
-- (DisplayString)\[#DisplayString\]
-- (DisplayNone)\[#DisplayNone\]
-- (DisplayTerms)\[#DisplayTerms\]
-- (DisplayHeader)\[#DisplayHeader\]
+- [DisplayTerm](#DisplayTerm)
+- [DisplayString](#DisplayString)
+- [DisplayNone](#DisplayNone)
+- [DisplayTerms](#DisplayTerms)
+- [DisplayHeader](#DisplayHeader)
 
 ### DisplayTerm
 

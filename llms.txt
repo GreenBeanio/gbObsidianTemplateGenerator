@@ -28,6 +28,11 @@ See
 See
 [Usage](https://greenbeanio.github.io/gbObsidianTemplateGenerator/articles/Getting_Started.html)
 
+## Extending
+
+See
+[Extending](https://greenbeanio.github.io/gbObsidianTemplateGenerator/)
+
 ## Maintainers
 
 - [GreenBeanio](https://github.com/GreenBeanio)
