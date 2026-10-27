@@ -61,7 +61,7 @@ A class for holding other \code{DisplayTerm} objects to create headers
       \item{\code{header}}{The name for the header}
       \item{\code{level}}{The level of the header}
       \item{\code{contents}}{The contents of the \code{DisplayHeader}}
-      \item{\code{link}}{A link for the header}
+      \item{\code{link}}{The link for the header, if there is one}
       \item{\code{trailing_mode}}{If the contents should be trailed by the separtors}
       \item{\code{separators}}{How many separators to use between the contents}
       \item{\code{separator}}{The separating characters (typically \verb{\\\\n})}

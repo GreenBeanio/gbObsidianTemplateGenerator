@@ -17,6 +17,7 @@ Templater <- R6::R6Class(
       }
       checkmate::assertClass(value, classes = "Replacer")
       private$.replacer <- value
+      private$.processed <- FALSE
     },
     #' @field template A character template
     template = \(value) {
@@ -24,8 +25,8 @@ Templater <- R6::R6Class(
         return(private$.template)
       }
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
-      private$.processed <- FALSE
       private$.template <- value
+      private$.processed <- FALSE
     }
   ),
   public = list(
@@ -38,9 +39,10 @@ Templater <- R6::R6Class(
       self$template <- template
     },
     #' @description Processes the template
+    #' @param force Force processing a template even if it has already been processed
     #' @returns The processed character template
-    process = \() {
-      if(!private$.processed) {
+    process = \(force = FALSE) {
+      if(!private$.processed || force) {
         replacer <- self$replacer$makeReplacement()
         for(ind in seq_along(replacer)) {
           private$.template <- stringr::str_replace_all(private$.template,

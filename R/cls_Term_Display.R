@@ -281,6 +281,7 @@ DisplayHeader <- R6::R6Class(
     #' @param header The name for the header
     #' @param level The level of the header
     #' @param contents The contents of the `DisplayHeader`
+    #' @param link The link for the header, if there is one
     #' @param separators How many separators to use between the contents
     #' @param trailing_mode If the contents should be trailed by the separtors
     #' @param separator The separating characters (typically `\\n`)

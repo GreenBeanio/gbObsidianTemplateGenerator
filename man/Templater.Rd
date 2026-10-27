@@ -55,7 +55,14 @@ Initialize a new \code{Templater} object}
   Processes the template
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{Templater$process()}
+    \preformatted{Templater$process(force = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{force}}{Force processing a template even if it has already been processed}
+    }
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
