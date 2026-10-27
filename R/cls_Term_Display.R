@@ -1,5 +1,8 @@
+#' DisplayTerm
+#' Base class for `DisplayTerm` classes
+#' @importFrom checkmate assertNumeric assertLogical assertCharacter assertVector
+#' @export
 DisplayTerm <- R6::R6Class(
-  #' Base class for display terms
   "DisplayTerm",
   inherit = Term,
   private = list(
@@ -8,24 +11,24 @@ DisplayTerm <- R6::R6Class(
     .separator = character()
   ),
   active = list(
+    #' @field separators The number of separators to use when joining the contents
     separators = \(value) {
-      #' The number of separators to use when joining text
       if(missing(value)) {
         return(private$.separators)
       }
       checkmate::assertNumeric(value, len = 1, lower = 0, names = "unnamed")
       private$.separators <- as.integer(value)
     },
+    #' @field trailing_mode If the item should be followed by the separators
     trailing_mode = \(value) {
-      #' How to handle trailing
       if(missing(value)) {
         return(private$.trailing_mode)
       }
       checkmate::assertLogical(value, len = 1, names = "unnamed")
       private$.trailing_mode <- value
     },
+    #' @field separator The separating characters (typically `\\n`)
     separator = \(value) {
-      #' Separator character
       if(missing(value)) {
         return(private$.separator)
       }
@@ -35,6 +38,12 @@ DisplayTerm <- R6::R6Class(
     }
   ),
   public = list(
+    #' Initialize a new `DisplayTerm` object
+    #' @param contents The contents of the `DisplayTerm`
+    #' @param separators How many separators to use between the contents
+    #' @param trailing_mode If the contents should be trailed by the separtors
+    #' @param separator The separating characters (typically `\\n`)
+    #' @return A new `DisplayTerm` object
     initialize = \(contents, separators = 2,
                    trailing_mode = TRUE, separator = "\n") {
       super$initialize(contents)
@@ -42,35 +51,42 @@ DisplayTerm <- R6::R6Class(
       self$trailing_mode <- trailing_mode
       self$separator <- separator
     },
+    #' @description Makes a string from the contents
     makeText = \() {
-      #' Makes a string
       stop("Inherited DisplayTerm must implement makeText")
     },
+    #' @description Gets the separator to use
+    #' @returns The separator characters
     getSeparators = \() {
-      #' Gets the string of new lines to use
       return(paste(rep(self$separator, self$separators), collapse = ""))
     },
+    #' @description Applies the trailing to the string
+    #' @param content A list or vector of characters
+    #' @returns The processed text
     trailing = \(content) {
-      #' Gets the content after trailing logic
       if(private$.trailing_mode) {
         return(paste0(content, self$getSeparators()))
       }
       return(content)
     },
+    #' @description Adds more terms to the contents
+    #' @param terms Item to add to the contents
     addTerms = \(terms) {
-      #' Adds a terms terms to the contents
       stop("Inherited DisplayTerm class must implement addTerms")
     }
   )
 )
 
+#' DisplayString
+#' A class for displaying strings
+#' @importFrom checkmate assertCharacter assertVector
+#' @export
 DisplayString <- R6::R6Class(
-  #' A class to hold string contents
   "DisplayString",
   inherit = DisplayTerm,
   active = list(
+    #' @field contents A vector of replacement strings
     contents = \(value) {
-      #' A vector of replacement strings
       if(missing(value)) {
         return(private$.contents)
       }
@@ -83,6 +99,12 @@ DisplayString <- R6::R6Class(
     }
   ),
   public = list(
+    #' @description Initialize a new `DisplayString` object
+    #' @param contents The contents of the `DisplayString`
+    #' @param separators How many separators to use between the contents
+    #' @param trailing_mode If the contents should be trailed by the separtors
+    #' @param separator The separating characters (typically `\\n`)
+    #' @return A new `DisplayString` object
     initialize = \(contents, separators = 0,
                    trailing_mode = FALSE, separator = "\n") {
       if(missing(contents)) {
@@ -93,44 +115,55 @@ DisplayString <- R6::R6Class(
                        trailing_mode = trailing_mode,
                        separator = separator)
     },
+    #' @description Generates the string to insert
+    #' @returns The display text
     makeText = \() {
-      #' Generates the string to insert
       body <- paste(self$contents, collapse = self$getSeparators())
       return(self$trailing(body))
     },
+    #' @description Adds a terms terms to the contents
+    #' @param terms A character or a vector of character objects
     addTerms = \(terms) {
       #' Adds a terms terms to the contents
       if(!is.vector(terms)) {
         terms <- c(terms)
       }
       checkmate::assertVector(value, min.len = 1, names = "unnamed")
+      checkmate::assertCharacter(value)
       self$contents <- c(private$.contents, terms)
       return(invisible(self))
     }
   )
 )
 
+#' DisplayNone
+#' A class for displaying nothing
+#' @export
 DisplayNone <- R6::R6Class(
-  #' A class to display nothing
   "DisplayNone",
   inherit = DisplayTerm,
   active = list(
+    #' @field contents An empty character
     contents = \(value) {
-      #' Nothing!
       private$.contents <- ""
     }
   ),
   public = list(
+    #' @description Initialize a new `DisplayNone` object
+    #' @return A new `DisplayNone` object
     initialize = \() {
       super$initialize(contents = NULL,
                        separators = 0,
                        trailing_mode = FALSE,
                        separator = "")
     },
+    #' @description Generates the string to insert
+    #' @returns The display text
     makeText = \() {
-      #' Generates the string to insert
       return(self$trailing(self$contents))
     },
+    #' @description Adds **NOTHING**
+    #' @param terms A `DisplayTerm` or a list of `DisplayTerm` objects
     addTerms = \(terms) {
       #Nothing!
       return(invisible(self))
@@ -138,13 +171,16 @@ DisplayNone <- R6::R6Class(
   )
 )
 
+#' DisplayTerms
+#' A class for holding multiple `DisplayTerm` objects
+#' @importFrom checkmate assertList
+#' @export
 DisplayTerms <- R6::R6Class(
-  #' Base class for displaying other DisplayTerms
   "DisplayTerms",
   inherit = DisplayTerm,
   active = list(
+    #' @field contents A vector of replacement `DisplayTerm` classes
     contents = \(value) {
-      #' A vector of replacement DisplayTerm classes
       if(missing(value)) {
         return(private$.contents)
       }
@@ -157,6 +193,12 @@ DisplayTerms <- R6::R6Class(
     }
   ),
   public = list(
+    #' @description Initialize a new `DisplayTerms` object
+    #' @param contents The contents of the `DisplayTerms`
+    #' @param separators How many separators to use between the contents
+    #' @param trailing_mode If the contents should be trailed by the separtors
+    #' @param separator The separating characters (typically `\\n`)
+    #' @return A new `DisplayTerms` object
     initialize = \(contents, separators = 2,
                    trailing_mode = TRUE, separator = "\n") {
       if(missing(contents)) {
@@ -167,8 +209,9 @@ DisplayTerms <- R6::R6Class(
                        trailing_mode = trailing_mode,
                        separator = separator)
     },
+    #' @description Generates the string to insert
+    #' @returns The display text
     makeText = \() {
-      #' Makes a string
       out_list <- c()
       for(cur_ind in seq_along(self$contents)) {
         cur <- self$contents[[cur_ind]]$makeText()
@@ -179,8 +222,9 @@ DisplayTerms <- R6::R6Class(
       }
       return(self$trailing(paste(out_list, collapse = "")))
     },
+    #' @description Adds a terms terms to the contents
+    #' @param terms A `DisplayTerm` or a list of `DisplayTerm` objects
     addTerms = \(terms) {
-      #' Adds a terms terms to the contents
       if(!is.list(terms)) {
         terms <- list(terms)
       }
@@ -192,8 +236,12 @@ DisplayTerms <- R6::R6Class(
   )
 )
 
+#' DisplayHeader
+#' A class for holding other `DisplayTerm` objects to create headers
+#' @importFrom checkmate assertCharacter assertNumeric
+#' @importFrom glue glue
+#' @export
 DisplayHeader <- R6::R6Class(
-  #' A class to hold replacement contents
   "DisplayHeader",
   inherit = DisplayTerms,
   private = list(
@@ -202,16 +250,16 @@ DisplayHeader <- R6::R6Class(
     .link = character()
   ),
   active = list(
+    #' @field header The header value
     header = \(value) {
-      #' The header value
       if(missing(value)) {
         return(private$.header)
       }
       checkmate::assertCharacter(value, len = 1, names = "unnamed")
       private$.header <- value
     },
+    #' @field level An integer for the base level of the replacement header
     level = \(value) {
-      #' An integer for the base level of the replacement header
       if(missing(value)) {
         return(private$.level)
       }
@@ -219,8 +267,8 @@ DisplayHeader <- R6::R6Class(
                                lower = 1, upper = 6)
       private$.level <- as.integer(value)
     },
+    #' @field link A link for the header
     link = \(value) {
-      #' A link for the header
       if(missing(value)) {
         return(private$.link)
       }
@@ -229,6 +277,14 @@ DisplayHeader <- R6::R6Class(
     }
   ),
   public = list(
+    #' @description Initialize a new `DisplayHeader` object
+    #' @param header The name for the header
+    #' @param level The level of the header
+    #' @param contents The contents of the `DisplayHeader`
+    #' @param separators How many separators to use between the contents
+    #' @param trailing_mode If the contents should be trailed by the separtors
+    #' @param separator The separating characters (typically `\\n`)
+    #' @return A new `DisplayHeader` object
     initialize = \(header, level, contents, link = "",
                    trailing_mode = TRUE, separators = 2,
                    separator = "\n") {
@@ -243,6 +299,8 @@ DisplayHeader <- R6::R6Class(
       self$level <- level
       self$link <- link
     },
+    #' @description Generates the string to insert
+    #' @returns The display text
     makeText = \() {
       if(self$link != "") {
         header <- glue::glue("[{self$header}]({self$link})")

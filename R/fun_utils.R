@@ -85,6 +85,21 @@ obsidianMetadataReplace <- \(title,
     )
 }
 
+#' listToHeader
+#'
+#' Return a list of `DisplayHeader` objects
+#'
+#' @param vals A list consisting of names being headers and values being links
+#' @param level The level of the header
+#' @param trailing_final If the header should have trailing separators
+#'
+#' @returns
+#' A list of `DisplayHeader` objects
+#'
+#' @examples
+#' \dontrun{listToHeader(list("Day 1" = "meh_day.md", "Day 2" = "cool_day.md"), 2)}
+#'
+#' @export
 listToHeader <- \(vals, level, trailing_final = FALSE) {
   out_list <- list()
   trailing <- TRUE
@@ -101,6 +116,20 @@ listToHeader <- \(vals, level, trailing_final = FALSE) {
   return(out_list)
 }
 
+#' findHeaderLevels
+#'
+#' Searches a template for terms at headers
+#'
+#' @param template A character template to search
+#' @param term The regex term to search for as a header in the template
+#'
+#' @returns
+#' Return the header level or NULL
+#'
+#' @examples
+#' \dontrun{findHeaderLevels(template_file, "\\{Days\\}"))}
+#'
+#' @export
 findHeaderLevels <- \(template, term) {
   header_level <- stringr::str_match(
     template,
@@ -113,6 +142,21 @@ findHeaderLevels <- \(template, term) {
   }
 }
 
+#' removeHeaderLever
+#'
+#' Searches a template for terms at headers and removes the header levels
+#' for replacements.
+#'
+#' @param template A character template to modify
+#' @param term The regex term to search for as a header in the template
+#'
+#' @returns
+#' Return the template with the header levels removed
+#'
+#' @examples
+#' \dontrun{removeHeaderLever(template_file, "\\{Days\\}"))}
+#'
+#' @export
 removeHeaderLever <- \(template, term) {
   template <- stringr::str_replace_all(
     template,
@@ -120,6 +164,28 @@ removeHeaderLever <- \(template, term) {
   return(template)
 }
 
+#' makeHeaderFromList
+#'
+#' Searches a template to create a list of `DisplayHeader` objects at their
+#' desired header levels.
+#'
+#' @param vals A list consisting of names being headers and values being links
+#' @param template A character template to modify
+#' @param term The regex term to search for as a header in the template
+#' @param trailing_mode If you want the headers to have trailing
+#' @param trailing_final If you want the final header to have trailing
+#'
+#' @returns
+#' Creates a list of `DisplayHeader` objects from a list and a template
+#'
+#' @examples
+#' \dontrun{makeHeaderFromList(
+#'   list("Day 1" = "meh_day.md", "Day 2" = "cool_day.md"),
+#'   "cool_template.md",
+#'   "\\{Days\\}")
+#' }
+#'
+#' @export
 makeHeaderFromList <- \(vals = vals,
                         template = template,
                         term = term,

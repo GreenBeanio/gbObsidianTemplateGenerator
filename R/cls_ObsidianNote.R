@@ -1,5 +1,12 @@
+#' ObsidianNote
+#' Base class for `ObsidianNote` classes
+#' @importFrom checkmate assertCharacter assertDirectoryExists assertFileExists
+#'  assertDate assertFunction assertPOSIXct
+#' @importFrom lubridate Date tz
+#' @importFrom here here
+#' @importFrom readr read_file
+#' @export
 ObsidianNote <- R6::R6Class(
-  #' Base class for Obsidian Notes
   "ObsidianNote",
   private = list(
     .output_dir = here::here(),
@@ -11,8 +18,8 @@ ObsidianNote <- R6::R6Class(
     .file_name = character()
   ),
   active = list(
+    #' @field output_dir The template directory
     output_dir = \(value) {
-      #' The template directory
       if(missing(value)) {
         return(private$.output_dir)
       }
@@ -20,8 +27,8 @@ ObsidianNote <- R6::R6Class(
       checkmate::assertDirectoryExists(value)
       private$.output_dir <- value
     },
+    #' @field file_name The template file name
     file_name = \(value) {
-      #' The template file name
       if(missing(value)) {
         return(private$.file_name)
       }
@@ -29,24 +36,24 @@ ObsidianNote <- R6::R6Class(
       checkmate::assertFileExists(file.path(self$template_dir, value))
       private$.file_name <- value
     },
+    #' @field input_date The input date
     input_date = \(value) {
-      #' The input date
       if(missing(value)) {
         return(private$.input_date)
       }
       checkmate::assertDate(value, len = 1)
       private$.input_date <- value
     },
+    #' @field author The author
     author = \(value) {
-      #' The author
       if(missing(value)) {
         return(private$.author)
       }
       checkmate::assertCharacter(value, len = 1, min.chars = 0, names = "unnamed")
       private$.author <- value
     },
+    #' @field template_dir The template directory
     template_dir = \(value) {
-      #' The template directory
       if(missing(value)) {
         return(private$.template_dir)
       }
@@ -54,16 +61,16 @@ ObsidianNote <- R6::R6Class(
       checkmate::assertDirectoryExists(value)
       private$.template_dir <- value
     },
+    #' @field header_func The header function
     header_func = \(value) {
-      #' The header function
       if(missing(value)) {
         return(private$.header_func)
       }
       checkmate::assertFunction(value)
       private$.header_func <- value
     },
+    #' @field unique_timestamp The unique time stamp
     unique_timestamp = \(value) {
-      #' The unique time stamp
       if(missing(value)) {
         return(private$.unique_timestamp)
       }
@@ -72,6 +79,15 @@ ObsidianNote <- R6::R6Class(
     }
   ),
   public = list(
+    #' @description Initialize a new ObsidianNote object
+    #' @param file_name The file name of the template
+    #' @param output_dir The directory to export to
+    #' @param input_date The date of the file
+    #' @param author The author name
+    #' @param template_dir The directory with the templates
+    #' @param header_func The function to process header links (takes a list of name-link)
+    #' @param unique_timestamp A unique time to uniquely name files
+    #' @return A new `ObsidianNote` object
     initialize = \(file_name,
                    output_dir = here::here(),
                    input_date = Sys.Date(),
@@ -89,10 +105,10 @@ ObsidianNote <- R6::R6Class(
       self$unique_timestamp <- unique_timestamp
       self$file_name <- file_name
     },
+    #' @description The main process method to call
+    #' Exports needed templates
+    #' @returns A list of the header name and the corresponding file path
     process = \() {
-      #' The main process method to call
-      #' Exports needed templates
-      #' Returns a list of the header name and the corresponding file path
       vars <- self$processVariables()
       child_res <- self$processChild()
       if(file.exists(vars$output[[1]])) {
@@ -105,14 +121,15 @@ ObsidianNote <- R6::R6Class(
                               child_res = child_res)
       return(res)
     },
+    #' @description Processes variables used in other functions
+    #' @returns A list with the following strings:
+    #' - title: title for document
+    #' - creation_date: date of the template
+    #' - timestamp: unique timestamp
+    #' - output: output file path
+    #' - template: The loaded template
+    #' - obsidian_replacer: The replacer for obsdiain metadata
     processVariables = \() {
-      #' Returns a list with the following strings:
-      #' - title: title for document
-      #' - creation_date: date of the template
-      #' - timestamp: unique timestamp
-      #' - output: output file path
-      #' - template: The loaded template
-      #' - obsidian_replacer: The replacer for obsdiain metadata
       c_tz <- lubridate::tz(self$unique_timestamp)
       title <- self$processTitle()
       creation_date <- strftime(self$unique_timestamp, "%Y-%m-%d", tz = c_tz)
@@ -129,36 +146,34 @@ ObsidianNote <- R6::R6Class(
         author = self$author)
       return(out_list)
     },
+    #' @description Processes the template for the current object level
+    #' @param vars A list of strings for title, creation_date, timestamp, output, and template
+    #' @param child_res Takes a list of child headers and file paths
+    #' @returns A list of the header name and the corresponding file path
+    #' Exports needed templates
     processSelf = \(vars, child_res) {
-      #' Process Self
-      #' vars: A list of strings for title, creation_date, timestamp, output, and template
-      #' child_res: Takes a list of child headers and file paths
-      #' Exports needed templates
-      #' Returns a list of the header name and the corresponding file path
       stop("Inherited ObsidianNote class must implement processChildren")
     },
+    #' @description Processes the child template object
+    #' @returns A list of the header name and the corresponding file paths from the child
+    #' Runs child class
     processChild = \() {
-      #' Process Child
-      #' Runs child class
-      #' Returns a list of the header name and the corresponding file paths from the child
       stop("Inherited ObsidianNote class must implement processChildren")
     },
+    #' @description Processes the title
+    #' @returns The title as a character
     processTitle = \() {
-      #' Processes the title
-      #' Returns a string
       stop("Inherited ObsidianNote class must implement processTitle")
     },
+    #' @description Processes the output location
+    #' @param vars A list of strings for title, creation_date, timestamp
+    #' @returns The output path as a character
     processOutput = \(vars) {
-      #' Processes the output path
-      #' Takes an additional list with the following strings:
-      #'  - title
-      #'  - creation_date
-      #'  - timestamp
-      #' Returns an output file path
       stop("Inherited ObsidianNote class must implement processOutput")
     },
+    #' @description Loads the template file
+    #' @returns The template as a character
     getTemplate = \() {
-      #' Loads the tempalte file
       return(readr::read_file(file.path(self$template_dir, self$file_name)))
     }
   )

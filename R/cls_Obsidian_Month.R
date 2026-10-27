@@ -1,8 +1,24 @@
+#' ObsidianMonth
+#' Class for generating monthly template files
+#' @importFrom here here
+#' @importFrom lubridate wday days weeks isoweek floor_date ceiling_date Date month year
+#' @importFrom stringr str_pad
+#' @importFrom readr write_file
+#' @importFrom glue glue
+#' @export
 ObsidianMonth <- R6::R6Class(
-  #' Class for generating weekly template files
   "ObsidianMonth",
   inherit = ObsidianNote,
   public = list(
+    #' @description Initialize a new `ObsidianMonth` object
+    #' @param file_name The file name of the template
+    #' @param output_dir The directory to export to
+    #' @param input_date The date of the file
+    #' @param author The author name
+    #' @param template_dir The directory with the templates
+    #' @param header_func The function to process header links (takes a list of name-link)
+    #' @param unique_timestamp A unique time to uniquely name files
+    #' @returns A new `ObsidianMonth` object
     initialize = \(output_dir = here::here(),
                    file_name = "Month.md",
                    input_date = Sys.Date(),
@@ -21,13 +37,12 @@ ObsidianMonth <- R6::R6Class(
         unique_timestamp = unique_timestamp,
         file_name = file_name)
     },
+    #' @description Processes the template for the current object level
+    #' @param vars A list of strings for title, creation_date, timestamp, output, and template
+    #' @param child_res Takes a list of child headers and file paths
+    #' @returns A list of the header name and the corresponding file path
+    #' Exports needed templates
     processSelf = \(vars, child_res) {
-      #' Process Self
-      #' vars: A list of strings for title, creation_date, timestamp, output, template, and obsidian_replacer
-      #' child_res: Takes a list of child headers and file paths
-      #' Exports needed templates
-      #' Returns a list of the header name and the corresponding file path
-      # Load template and replace the constant variables
       week_replacement <- ReplaceTerm$new(search_term = "Weeks")
       week_replacement$contents <-
         makeHeaderFromList(vals = child_res,
@@ -45,11 +60,10 @@ ObsidianMonth <- R6::R6Class(
       output_list[[names(vars$output)[1]]] <- vars$output[[1]]
       return(output_list)
     },
+    #' @description Processes the child template object
+    #' @returns A list of the header name and the corresponding file paths from the child
+    #' Runs child class
     processChild = \() {
-      #' Process Child
-      #' Runs child class
-      #' Returns a list of the header name and the corresponding file paths from the child
-      # Run the weeks
       start_month_day <- lubridate::floor_date(self$input_date, unit = "month")
       start_week <- lubridate::isoweek(start_month_day)
       end_week <- lubridate::isoweek(lubridate::ceiling_date(self$input_date,
@@ -84,26 +98,22 @@ ObsidianMonth <- R6::R6Class(
         self$header_func()
       return(c_weeks)
     },
+    #' @description Processes the title
+    #' @returns The title as a character
     processTitle = \() {
-      #' Processes the title
-      #' Returns a string
       c_month <- lubridate::month(self$input_date)
       c_year <- lubridate::year(self$input_date)
       return(glue::glue("{c_year}_{c_month |> stringr::str_pad(2, 'left', '0')}"))
     },
+    #' @description Processes the output location
+    #' @param vars A list of strings for title, creation_date, timestamp
+    #' @returns The output path as a character
     processOutput = \(vars) {
-      #' Processes the output path
-      #' Takes an additional list with the following strings:
-      #'  - title
-      #'  - creation_date
-      #'  - timestamp
-      #' Returns a list with the header as the name and the path as the value
       c_month <- lubridate::month(self$input_date)
       quarter_month <- lubridate::month(lubridate::floor_date(self$input_date, unit = "quarter"))
       output_name <- glue::glue("Month {c_month - quarter_month + 1}")
       cur_output_dir <- file.path(self$output_dir, "2_Monthly Notes", lubridate::year(self$input_date))
       if(!dir.exists(cur_output_dir)) {
-        # Recursion could be somewhat annoying if you put in the wrong input directory
         dir.create(cur_output_dir, recursive = TRUE)
       }
       c_output <- file.path(

@@ -1,5 +1,8 @@
+#' Templater
+#' A class to process a template
+#' @importFrom checkmate assertClass assertCharacter
+#' @export
 Templater <- R6::R6Class(
-  #' A class to hold the replacer
   "Templater",
   private = list(
     .replacer = Replacer,
@@ -7,16 +10,16 @@ Templater <- R6::R6Class(
     .processed = FALSE
   ),
   active = list(
+    #' @field replacer A `Replacer` instance
     replacer = \(value) {
-      #' A Replacer instance
       if(missing(value)) {
         return(private$.replacer)
       }
       checkmate::assertClass(value, classes = "Replacer")
       private$.replacer <- value
     },
+    #' @field template A character template
     template = \(value) {
-      #' The template (a character object)
       if(missing(value)) {
         return(private$.template)
       }
@@ -26,12 +29,17 @@ Templater <- R6::R6Class(
     }
   ),
   public = list(
+    #' Initialize a new `Templater` object
+    #' @param replacer A `Replacer` instance
+    #' @param template A character template
+    #' @return A new `Templater` object
     initialize = \(replacer, template) {
       self$replacer <- replacer
       self$template <- template
     },
+    #' @description Processes the template
+    #' @returns The processed character template
     process = \() {
-      #' Processes the template
       if(!private$.processed) {
         replacer <- self$replacer$makeReplacement()
         for(ind in seq_along(replacer)) {

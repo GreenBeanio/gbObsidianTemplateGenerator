@@ -1,8 +1,23 @@
+#' ObsidianQuarter
+#' Class for generating quarterly template files
+#' @importFrom here here
+#' @importFrom lubridate make_date year month floor_date quarter
+#' @importFrom readr write_file
+#' @importFrom glue glue
+#' @export
 ObsidianQuarter <- R6::R6Class(
-  #' Class for generating weekly template files
   "ObsidianQuarter",
   inherit = ObsidianNote,
   public = list(
+    #' @description Initialize a new `ObsidianQuarter` object
+    #' @param file_name The file name of the template
+    #' @param output_dir The directory to export to
+    #' @param input_date The date of the file
+    #' @param author The author name
+    #' @param template_dir The directory with the templates
+    #' @param header_func The function to process header links (takes a list of name-link)
+    #' @param unique_timestamp A unique time to uniquely name files
+    #' @return A new `ObsidianQuarter` object
     initialize = \(output_dir = here::here(),
                    file_name = "Quarter.md",
                    input_date = Sys.Date(),
@@ -21,12 +36,12 @@ ObsidianQuarter <- R6::R6Class(
         unique_timestamp = unique_timestamp,
         file_name = file_name)
     },
+    #' @description Processes the template for the current object level
+    #' @param vars A list of strings for title, creation_date, timestamp, output, and template
+    #' @param child_res Takes a list of child headers and file paths
+    #' @returns A list of the header name and the corresponding file path
+    #' Exports needed templates
     processSelf = \(vars, child_res) {
-      #' Process Self
-      #' vars: A list of strings for title, creation_date, timestamp, output, template, and obsidian_replacer
-      #' child_res: Takes a list of child headers and file paths
-      #' Exports needed templates
-      #' Returns a list of the header name and the corresponding file path
       month_list <- list()
       for(ind in seq_along(child_res)) {
         replacer <- ReplaceTerm$new(search_term = paste0("Month ", ind))
@@ -47,12 +62,10 @@ ObsidianQuarter <- R6::R6Class(
       output_list[[names(vars$output)[1]]] <- vars$output[[1]]
       return(output_list)
     },
+    #' @description Processes the child template object
+    #' @returns A list of the header name and the corresponding file paths from the child
+    #' Runs child class
     processChild = \() {
-      #' Process Child
-      #' Runs child class
-      #' Returns a list of the header name and the corresponding file paths from the child
-      # Run the weeks
-      # Run the months
       c_year <- lubridate::year(self$input_date)
       start_month <- lubridate::month(lubridate::floor_date(self$input_date,
                                                             unit = "quarter"))
@@ -72,25 +85,21 @@ ObsidianQuarter <- R6::R6Class(
         self$header_func()
       return(c_months)
     },
+    #' @description Processes the title
+    #' @returns The title as a character
     processTitle = \() {
-      #' Processes the title
-      #' Returns a string
       c_quarter <- lubridate::quarter(self$input_date)
       c_year <- lubridate::year(self$input_date)
       return(glue::glue("{c_year}_{c_quarter}"))
     },
+    #' @description Processes the output location
+    #' @param vars A list of strings for title, creation_date, timestamp
+    #' @returns The output path as a character
     processOutput = \(vars) {
-      #' Processes the output path
-      #' Takes an additional list with the following strings:
-      #'  - title
-      #'  - creation_date
-      #'  - timestamp
-      #' Returns a list with the header as the name and the path as the value
       c_quarter <- lubridate::quarter(self$input_date)
       output_name <- glue::glue("Quarter {c_quarter}")
       cur_output_dir <- file.path(self$output_dir, "3_Quarterly Notes", lubridate::year(self$input_date))
       if(!dir.exists(cur_output_dir)) {
-        # Recursion could be somewhat annoying if you put in the wrong input directory
         dir.create(cur_output_dir, recursive = TRUE)
       }
       c_output <- file.path(
