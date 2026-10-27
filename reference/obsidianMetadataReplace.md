@@ -1,25 +1,14 @@
 # obsidianMetadataReplace
 
-Replaces obsidian metadata in the templates
+Return a list of ReplaceTerm objects
 
 ## Usage
 
 ``` r
-obsidianMetadataReplace(
-  template,
-  title,
-  creation_date,
-  unique_timestamp,
-  author
-)
+obsidianMetadataReplace(title, creation_date, unique_timestamp, author)
 ```
 
 ## Arguments
-
-- template:
-
-  A loaded template file as a character string (such as from
-  readr::read_file)
 
 - title:
 

@@ -1,6 +1,6 @@
-# gbObsidianTemplateGenerator: What the Package Does (One Line, Title Case)
+# gbObsidianTemplateGenerator: Generates Obsidian files from templates
 
-What the package does (one paragraph).
+Generates journal like files for Obsidian from template files.
 
 ## See also
 
@@ -10,10 +10,8 @@ Useful links:
 
 ## Author
 
-**Maintainer**: First Last <first.last@example.com>
-([ORCID](https://orcid.org/YOUR-ORCID-ID))
+**Maintainer**: Garrett Johnson <pingujohnson@gmail.com>
 
 Authors:
 
-- First Last <first.last@example.com>
-  ([ORCID](https://orcid.org/YOUR-ORCID-ID))
+- Garrett Johnson <pingujohnson@gmail.com>

@@ -18,16 +18,16 @@ pak::pkg_install("GreenBeanio/gbObsidianTemplateGenerator")
 
 ## Usage
 
-The package has 5 main functions:
+The package has 5 main classes:
 
-- [`createDay()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createDay.md)
-- [`createWeek()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createWeek.md)
-- [`createMonth()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createMonth.md)
-- [`createQuarter()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createQuarter.md)
-- [`createYear()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/createYear.md)
+- [`ObsidianDay()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/ObsidianDay.md)
+- [`ObsidianWeek()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/ObsidianWeek.md)
+- [`ObsidianMonth()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/ObsidianMonth.md)
+- [`ObsidianQuarter()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/ObsidianQuarter.md)
+- [`ObsidianYear()`](https://greenbeanio.github.io/gbObsidianTemplateGenerator/reference/ObsidianYear.md)
 
-Each of these functions will generate their corresponding template as
-well as all of the needed children.
+Each of these classes will generate their corresponding template as well
+as all of the needed children.
 
 The files get output to a specific file structure:
 
@@ -65,7 +65,7 @@ At the simplest level all you would have to do is as follows:
 
 ``` r
 
-createYear()
+ObsidianYear$new()$process()
 ```
 
 This would use the current date, the default templates from the package,
@@ -76,10 +76,10 @@ A more realistic example would be:
 
 ``` r
 
-createYear(
+ObsidianYear$new(
   template_dir = here::here("Obsidian-Templates"),
   output_dir = here::here("Obsidian-Vault", "Planning Notes"),
-  author = "Garrett Johnson")
+  author = "Garrett Johnson")$process()
 ```
 
 In this example you are using you are specifying a directory where you

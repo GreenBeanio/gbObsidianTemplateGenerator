@@ -22,6 +22,7 @@ You will need at least R version 4.3.0.
 - [`renv::snapshot()`](https://rstudio.github.io/renv/reference/snapshot.html)
   for saving any new packages to the lock file
 - `usethis::use_version()` for incrementing versions
+- `microbenchmark::microbenchmark()` for benchmarking
 
 ## Contributing
 
