@@ -43,15 +43,15 @@ pak::pkg_install("GreenBeanio/gbObsidianTemplateGenerator")
 
 ## Usage
 
-The package has 5 main functions:
+The package has 5 main classes:
 
-  - `createDay()`
-  - `createWeek()`
-  - `createMonth()`
-  - `createQuarter()`
-  - `createYear()`
+  - `ObsidianDay()`
+  - `ObsidianWeek()`
+  - `ObsidianMonth()`
+  - `ObsidianQuarter()`
+  - `ObsidianYear()`
   
-Each of these functions will generate their corresponding template as well as
+Each of these classes will generate their corresponding template as well as
 all of the needed children.
 
 The files get output to a specific file structure:
@@ -90,7 +90,7 @@ At the simplest level all you would have to do is as follows:
 ```{r}
 #| label: example-year-basic
 #| eval: false
-createYear()
+ObsidianYear$new()$process()
 ```
 
 This would use the current date, the default templates from the package, your
@@ -102,10 +102,10 @@ A more realistic example would be:
 ```{r}
 #| label: example-year-simple
 #| eval: false
-createYear(
+ObsidianYear$new(
   template_dir = here::here("Obsidian-Templates"),
   output_dir = here::here("Obsidian-Vault", "Planning Notes"),
-  author = "Garrett Johnson")
+  author = "Garrett Johnson")$process()
 ```
 
 In this example you are using you are specifying a directory where you have
