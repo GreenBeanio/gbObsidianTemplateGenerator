@@ -4,9 +4,9 @@
 \name{gbObsidianTemplateGenerator-package}
 \alias{gbObsidianTemplateGenerator}
 \alias{gbObsidianTemplateGenerator-package}
-\title{gbObsidianTemplateGenerator: What the Package Does (One Line, Title Case)}
+\title{gbObsidianTemplateGenerator: Generates Obsidian files from templates}
 \description{
-What the package does (one paragraph).
+Generates journal like files for Obsidian from template files.
 }
 \seealso{
 Useful links:
@@ -16,11 +16,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Garrett Johnson \email{pingujohnson@gmail.com}
 
 Authors:
 \itemize{
-  \item First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+  \item Garrett Johnson \email{pingujohnson@gmail.com}
 }
 
 }

@@ -22,7 +22,7 @@ tags:
 
 ### {Quarter 3}
 
-### {Quarter 4} 
+### {Quarter 4}
 
 ## To-Do
 

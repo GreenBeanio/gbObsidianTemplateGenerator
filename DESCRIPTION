@@ -1,12 +1,12 @@
 Package: gbObsidianTemplateGenerator
 Title: Generates Obsidian files from templates
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     person(given = "Garrett", family = "Johnson", email = "pingujohnson@gmail.com", role = c("aut", "cre"))
 Description: Generates journal like files for Obsidian from template files.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE, r6 = TRUE)
 Suggests: 
     covr,
     knitr,
@@ -15,6 +15,7 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://greenbeanio.github.io/gbObsidianTemplateGenerator/
 Imports: 
+    checkmate,
     glue,
     here,
     htmltools,
@@ -23,8 +24,9 @@ Imports:
     purrr,
     readr,
     stringr
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
 VignetteBuilder: quarto
 Config/Needs/Dev:
     devtools,
-    usethis
+    usethis,
+    microbenchmark
