@@ -31,7 +31,7 @@ See
 ## Extending
 
 See
-[Extending](https://greenbeanio.github.io/gbObsidianTemplateGenerator/)
+[Extending](https://greenbeanio.github.io/gbObsidianTemplateGenerator/articles/Custom_Templates.html)
 
 ## Maintainers
 
