@@ -7,7 +7,7 @@ test_that("ObsidianMonth", {
     unique_timestamp = test_time,
     author = "Test User")$process()[[1]]
   test_result <- readr::read_file(output_path[[1]])
-  loaded_file <- readRDS(testthat::test_path("testdata", "create_month.rds"))
+  loaded_file <- readRDS(testthat::test_path("testdata", "ObsidianMonth.rds"))
   testthat::expect_equal(test_result, loaded_file)
   unlink(temp_dir, recursive = TRUE, force = TRUE)
 })
