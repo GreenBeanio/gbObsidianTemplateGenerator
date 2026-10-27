@@ -29,7 +29,7 @@ See [Usage](https://greenbeanio.github.io/gbObsidianTemplateGenerator/articles/G
 
 ## Extending
 
-See [Extending]()
+See [Extending](https://greenbeanio.github.io/gbObsidianTemplateGenerator/articles/Custom_Templates.html)
 
 ## Maintainers
 
