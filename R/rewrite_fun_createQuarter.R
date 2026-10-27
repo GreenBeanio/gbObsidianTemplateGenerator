@@ -115,6 +115,7 @@ createQuarter <- \(input_date = Sys.Date(),
   for(ind in seq_along(c_months)) {
     replacer <- ReplaceTerm$new(search_term = paste0("Month ", ind))
     replacer$contents <- DisplayHeader$new(header = replacer$search_term,
+                                           link = c_months[[ind]],
                                            level = findHeaderLevels(
                                              template = template,
                                              term = replacer$makeSearch()),

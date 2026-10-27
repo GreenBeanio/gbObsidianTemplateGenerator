@@ -106,6 +106,8 @@ createYear <- \(input_date = Sys.Date(),
     purrr::flatten() |>
     header_func()
 
+  print(quarters)
+
   obsidian_replacement <- obsidianMetadataReplace(
     title = c_title,
     creation_date = c_creation_date,
@@ -115,6 +117,7 @@ createYear <- \(input_date = Sys.Date(),
   for(ind in seq_along(quarters)) {
     replacer <- ReplaceTerm$new(search_term = paste0("Quarter ", ind))
     replacer$contents <- DisplayHeader$new(header = replacer$search_term,
+                                           link = quarters[[ind]],
                                            level = findHeaderLevels(
                                              template = template,
                                              term = replacer$makeSearch()),
