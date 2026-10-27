@@ -28,14 +28,8 @@ ObsidianDay <- R6::R6Class(
       #' Exports needed templates
       #' Returns a list of the header name and the corresponding file path
       # Load template and replace the constant variables
-      replacer <- Replacer$new(contents =
-                                 obsidianMetadataReplace(
-                                   title = vars$title,
-                                   creation_date = vars$creation_date,
-                                   unique_timestamp = vars$timestamp,
-                                   author = self$author))
       template <- Templater$new(
-        replacer = replacer,
+        replacer = Replacer$new(vars$obsidian_replacer),
         template = vars$template)$process()
       # Write the file and add to output
       readr::write_file(template, vars$output[[1]])

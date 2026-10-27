@@ -27,11 +27,6 @@ ObsidianQuarter <- R6::R6Class(
       #' child_res: Takes a list of child headers and file paths
       #' Exports needed templates
       #' Returns a list of the header name and the corresponding file path
-      obsidian_replacement <- obsidianMetadataReplace(
-        title = vars$title,
-        creation_date = vars$creation_date,
-        unique_timestamp = vars$timestamp,
-        author = self$author)
       month_list <- list()
       for(ind in seq_along(child_res)) {
         replacer <- ReplaceTerm$new(search_term = paste0("Month ", ind))
@@ -45,7 +40,7 @@ ObsidianQuarter <- R6::R6Class(
         vars$template <- removeHeaderLever(template = vars$template,
                                       term = replacer$makeSearch())
       }
-      replacer <- Replacer$new(c(obsidian_replacement, month_list))
+      replacer <- Replacer$new(c(vars$obsidian_replacer, month_list))
       template <- Templater$new(replacer = replacer, template = vars$template)$process()
       readr::write_file(template, vars$output[[1]])
       output_list <- list()

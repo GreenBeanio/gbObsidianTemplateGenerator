@@ -4,7 +4,7 @@ ObsidianYear <- R6::R6Class(
   inherit = ObsidianNote,
   public = list(
     initialize = \(output_dir = here::here(),
-                   file_name = "Quarter.md",
+                   file_name = "Year.md",
                    input_date = Sys.Date(),
                    author = Sys.info()[["user"]],
                    template_dir = system.file(
@@ -27,11 +27,6 @@ ObsidianYear <- R6::R6Class(
       #' child_res: Takes a list of child headers and file paths
       #' Exports needed templates
       #' Returns a list of the header name and the corresponding file path
-      obsidian_replacement <- obsidianMetadataReplace(
-        title = vars$title,
-        creation_date = vars$creation_date,
-        unique_timestamp = vars$timestamp,
-        author = self$author)
       quarter_list <- list()
       for(ind in seq_along(child_res)) {
         replacer <- ReplaceTerm$new(search_term = paste0("Quarter ", ind))
@@ -45,7 +40,7 @@ ObsidianYear <- R6::R6Class(
         vars$template <- removeHeaderLever(template = vars$template,
                                       term = replacer$makeSearch())
       }
-      replacer <- Replacer$new(c(obsidian_replacement, quarter_list))
+      replacer <- Replacer$new(c(vars$obsidian_replacer, quarter_list))
       template <- Templater$new(replacer = replacer, template = vars$template)$process()
       readr::write_file(template, vars$output[[1]])
       output_list <- list()
@@ -64,7 +59,7 @@ ObsidianYear <- R6::R6Class(
         lubridate::make_date(c_year, 7, 1),
         lubridate::make_date(c_year, 10, 1))
       quarters <- purrr::map(quarter_dates,
-                             \(x) ObsidianMonth$new(
+                             \(x) ObsidianQuarter$new(
                                input_date = x,
                                output_dir = self$output_dir,
                                author = self$author,
@@ -88,6 +83,10 @@ ObsidianYear <- R6::R6Class(
       #'  - timestamp
       #' Returns a list with the header as the name and the path as the value
       cur_output_dir <- file.path(self$output_dir, "4_Yearly Notes")
+      if(!dir.exists(cur_output_dir)) {
+        # Recursion could be somewhat annoying if you put in the wrong input directory
+        dir.create(cur_output_dir, recursive = TRUE)
+      }
       c_output <- file.path(
         cur_output_dir,
         glue::glue("{vars$title} Yearly Note u-{vars$timestamp}.md"))

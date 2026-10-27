@@ -28,11 +28,6 @@ ObsidianWeek <- R6::R6Class(
       #' Exports needed templates
       #' Returns a list of the header name and the corresponding file path
       # Load template and replace the constant variables
-      obsidian_replacement <- obsidianMetadataReplace(
-        title = vars$title,
-        creation_date = vars$creation_date,
-        unique_timestamp = vars$timestamp,
-        author = self$author)
       day_replacement <- ReplaceTerm$new(search_term = "Days")
       day_replacement$contents <-
         makeHeaderFromList(vals = child_res,
@@ -42,7 +37,7 @@ ObsidianWeek <- R6::R6Class(
                            trailing_final = FALSE)
       template <- removeHeaderLever(template = vars$template,
                                     term = day_replacement$makeSearch())
-      replacer <- Replacer$new(c(obsidian_replacement, day_replacement))
+      replacer <- Replacer$new(c(vars$obsidian_replacer, day_replacement))
       template <- Templater$new(replacer = replacer, template = template)$process()
       # Write the file and add to output
       readr::write_file(template, vars$output[[1]])
